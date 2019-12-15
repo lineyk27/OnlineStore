@@ -10,6 +10,10 @@ namespace OnlineStore.Data
 {
     public class OnlineStoreDbContext : DbContext
     {
+        public OnlineStoreDbContext():base()
+        {
+        }
+
         public OnlineStoreDbContext(DbContextOptions<OnlineStoreDbContext> options)
                     : base(options)
         {

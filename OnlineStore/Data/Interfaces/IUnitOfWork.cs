@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using OnlineStore.Models.Database;
+﻿using OnlineStore.Models.Database;
 
 namespace OnlineStore.Data.Interfaces
 {
     interface IUnitOfWork
     {
-        Repository<Category> CategoryRepository { get; set; }
-        Repository<Comment> CommentRepository { get; set; }
-        Repository<Product> ProductRepository { get; set; }
-        Repository<Purchase> PurchaseRepository{ get; set; }
-        Repository<PurchaseProduct> PurchaseProductRepository{ get; set; }
-        Repository<Rate> RateRepository{ get; set; }
-        Repository<ShoppingCart> ShoppingCartRepository{ get; set; }
-        Repository<User> UserRepository{ get; set; }
-        Repository<UserRole> UserRoleRepository{ get; set; }
+        public Repository<Category> CategoryRepository { get; }
+        public Repository<Comment> CommentRepository { get; }
+        public Repository<Product> ProductRepository { get; }
+        public Repository<Purchase> PurchaseRepository{ get;}
+        public Repository<PurchaseProduct> PurchaseProductRepository{ get; }
+        public Repository<Rate> RateRepository{ get; }
+        public Repository<ShoppingCart> ShoppingCartRepository{ get; }
+        public Repository<User> UserRepository{ get; }
+        public Repository<UserRole> UserRoleRepository{ get;}
     }
 }
