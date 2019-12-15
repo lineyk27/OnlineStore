@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+using OnlineStore.Models.Database;
+
+namespace OnlineStore.Data.Configurations
+{
+    public class PurchaseConfiguration : IEntityTypeConfiguration<Purchase>
+    {
+        public void Configure(EntityTypeBuilder<Purchase> builder)
+        {
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Adress).HasMaxLength(128);
+            builder.Property(e => e.FullPrice).HasColumnType("decimal(5, 2)");
+        
+        }
+    }
+}
