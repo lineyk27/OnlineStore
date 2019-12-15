@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Data.Interfaces;
 
@@ -42,7 +42,7 @@ namespace OnlineStore.Data
             }
         }
 
-        public TEntity GetByID(int id)
+        public TEntity GetByID(object id)
         {
             return dbSet.Find(id);
         }
@@ -52,7 +52,7 @@ namespace OnlineStore.Data
             dbSet.Add(entity);
         }
 
-        public void Delete(int id)
+        public void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);
             Delete(entityToDelete);
