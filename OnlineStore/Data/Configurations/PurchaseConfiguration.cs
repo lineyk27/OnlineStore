@@ -13,6 +13,8 @@ namespace OnlineStore.Data.Configurations
         public void Configure(EntityTypeBuilder<Purchase> builder)
         {
             builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+
             builder.Property(e => e.Adress).HasMaxLength(128);
             builder.Property(e => e.FullPrice).HasColumnType("decimal(5, 2)");
 

@@ -13,7 +13,11 @@ namespace OnlineStore.Data.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(e => e.Id);
-            
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+
+            builder.Property(e => e.Name).HasMaxLength(32);
+            builder.Property(e => e.Surname).HasMaxLength(32);
+
             builder.Property(e => e.Email).HasMaxLength(128);
             builder.Property(e => e.Email).IsUnicode(true);
 
@@ -23,8 +27,6 @@ namespace OnlineStore.Data.Configurations
             builder.Property(e => e.Adress).HasMaxLength(256);
 
             builder.Property(e => e.AuthValue).HasMaxLength(64);
-
-            builder.Property(e => e.CreationTime).HasDefaultValue(DateTime.Now);
 
             builder.HasOne(e => e.Role).WithMany(e => e.Users).HasForeignKey(e => e.RoleId);
             builder.HasMany(e => e.Products).WithOne(e => e.CreatorUser).HasForeignKey(e => e.CreatorUserId);

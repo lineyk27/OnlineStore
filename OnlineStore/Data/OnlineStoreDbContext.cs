@@ -39,6 +39,8 @@ namespace OnlineStore.Data
             builder.ApplyConfiguration(new RateConfiguration());
             builder.ApplyConfiguration(new ShoppingCartConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
+
+            builder.Seed();
         }
     }
 }

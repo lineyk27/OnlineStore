@@ -16,6 +16,8 @@ namespace OnlineStore.Data.Configurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
+
             builder.Property(e => e.Description).IsUnicode(true);
             builder.Property(e => e.Description).HasMaxLength(128);
 

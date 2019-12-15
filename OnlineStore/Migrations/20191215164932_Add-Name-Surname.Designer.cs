@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineStore.Data;
 
 namespace OnlineStore.Migrations
 {
     [DbContext(typeof(OnlineStoreDbContext))]
-    partial class OnlineStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191215164932_Add-Name-Surname")]
+    partial class AddNameSurname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +77,9 @@ namespace OnlineStore.Migrations
                         .HasDefaultValue(true);
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2019, 12, 15, 18, 49, 32, 300, DateTimeKind.Local).AddTicks(5745));
 
                     b.Property<int>("CreatorUserId")
                         .HasColumnType("int");
@@ -203,7 +207,9 @@ namespace OnlineStore.Migrations
                         .HasMaxLength(64);
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2019, 12, 15, 18, 49, 32, 269, DateTimeKind.Local).AddTicks(4152));
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(128)")

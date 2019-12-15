@@ -13,6 +13,7 @@ namespace OnlineStore.Data.Configurations
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Producer).HasMaxLength(64);
 
@@ -24,8 +25,6 @@ namespace OnlineStore.Data.Configurations
             builder.Property(e => e.Description).HasColumnType("ntext");
 
             builder.Property(e => e.ImageUrl).HasMaxLength(256);
-
-            builder.Property(e => e.CreationTime).HasDefaultValue(DateTime.Now);
 
             builder.Property(e => e.CommentsEnabled).HasDefaultValue(true);
 
