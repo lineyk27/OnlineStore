@@ -7,118 +7,122 @@ namespace OnlineStore.Data
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private OnlineStoreDbContext context = OnlineStoreDbContextFactory.Create();
-        private bool disposed = false;
-        public Repository<Category> CategoryRepository
+        private OnlineStoreDbContext context;
+        private bool disposed;
+        public UnitOfWork()
         {
-            get
-            {
-                if (CategoryRepository == null)
-                {
-                    CategoryRepository = new Repository<Category>(context);
-                }
-                return CategoryRepository;
-            }
-            private set { }
+            context = OnlineStoreDbContextFactory.Create();
+            disposed = false;
         }
+
+        private Repository<Rate> rateRepository;
+        private Repository<User> userRepository; 
+        private Repository<Product> productRepository; 
+        private Repository<Category> categoryRepository;
+        private Repository<Comment> commentRepository;
+        private Repository<Purchase> purchaseRepository;
+        private Repository<PurchaseProduct> purchaseProductRepository;
+        private Repository<ShoppingCart> shoppingCartRepository;
+        private Repository<UserRole> userRoleRepository;
         public Repository<User> UserRepository
         {
             get
             {
-                if (UserRepository == null)
+                if (userRepository == null)
                 {
-                    UserRepository = new Repository<User>(context);
+                    userRepository = new Repository<User>(context);
                 }
-                return UserRepository;
+                return userRepository;
             }
-            private set { }
         }
         public Repository<Product> ProductRepository
         {
             get
             {
-                if (ProductRepository == null)
+                if (productRepository == null)
                 {
-                    ProductRepository = new Repository<Product>(context);
+                    productRepository = new Repository<Product>(context);
                 }
-                return ProductRepository;
+                return productRepository;
             }
-            private set { }
-        }
-        public Repository<Purchase> PurchaseRepository
-        {
-            get
-            {
-                if (PurchaseRepository == null)
-                {
-                    PurchaseRepository = new Repository<Purchase>(context);
-                }
-                return PurchaseRepository;
-            }
-            private set { }
-        }
-        public Repository<PurchaseProduct> PurchaseProductRepository
-        {
-            get
-            {
-                if (PurchaseProductRepository == null)
-                {
-                    PurchaseProductRepository = new Repository<PurchaseProduct>(context);
-                }
-                return PurchaseProductRepository;
-            }
-            private set { }
         }
         public Repository<Rate> RateRepository
         {
             get
             {
-                if (RateRepository == null)
+                if (rateRepository == null)
                 {
-                    RateRepository = new Repository<Rate>(context);
+                    rateRepository = new Repository<Rate>(context);
                 }
-                return RateRepository;
+                return rateRepository;
             }
-            private set { }
+        }
+        public Repository<Category> CategoryRepository
+        {
+            get
+            {
+                if (categoryRepository == null)
+                {
+                    categoryRepository = new Repository<Category>(context);
+                }
+                return categoryRepository;
+            }
         }
         public Repository<Comment> CommentRepository
         {
             get
             {
-                if (CommentRepository == null)
+                if (commentRepository == null)
                 {
-                    CommentRepository = new Repository<Comment>(context);
+                    commentRepository = new Repository<Comment>(context);
                 }
-                return CommentRepository;
+                return commentRepository;
             }
-            private set { }
+        }
+        public Repository<Purchase> PurchaseRepository
+        {
+            get
+            {
+                if (purchaseRepository == null)
+                {
+                    purchaseRepository = new Repository<Purchase>(context);
+                }
+                return purchaseRepository;
+            }
+        }
+        public Repository<PurchaseProduct> PurchaseProductRepository
+        {
+            get
+            {
+                if (purchaseProductRepository == null)
+                {
+                    purchaseProductRepository = new Repository<PurchaseProduct>(context);
+                }
+                return purchaseProductRepository;
+            }
         }
         public Repository<ShoppingCart> ShoppingCartRepository
         {
             get
             {
-                if (ShoppingCartRepository == null)
+                if (shoppingCartRepository == null)
                 {
-                    ShoppingCartRepository = new Repository<ShoppingCart>(context);
+                    shoppingCartRepository = new Repository<ShoppingCart>(context);
                 }
-                return ShoppingCartRepository;
+                return shoppingCartRepository;
             }
-            private set { }
         }
         public Repository<UserRole> UserRoleRepository
         {
             get
             {
-                if (UserRoleRepository == null)
+                if (userRoleRepository == null)
                 {
-                    UserRoleRepository = new Repository<UserRole>(context);
+                    userRoleRepository = new Repository<UserRole>(context);
                 }
-                return UserRoleRepository;
+                return userRoleRepository;
             }
-            private set { }
         }
-
-
         public void Save()
         {
             context.SaveChanges();
