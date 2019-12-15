@@ -28,6 +28,13 @@ namespace OnlineStore.Data.Configurations
             builder.Property(e => e.CreationTime).HasDefaultValue(DateTime.Now);
 
             builder.Property(e => e.CommentsEnabled).HasDefaultValue(true);
+
+            builder.HasMany(e => e.Comments).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
+            builder.HasOne(e => e.Category).WithMany(e => e.Products).HasForeignKey(e => e.CategoryId);
+            builder.HasMany(e => e.Rates).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
+            builder.HasMany(e => e.PurchaseProducts).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
+            builder.HasMany(e => e.ShoppingCarts).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
+
         }
 
     }

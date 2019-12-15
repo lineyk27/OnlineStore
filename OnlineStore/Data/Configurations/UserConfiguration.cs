@@ -25,6 +25,13 @@ namespace OnlineStore.Data.Configurations
             builder.Property(e => e.AuthValue).HasMaxLength(64);
 
             builder.Property(e => e.CreationTime).HasDefaultValue(DateTime.Now);
+
+            builder.HasOne(e => e.Role).WithMany(e => e.Users).HasForeignKey(e => e.RoleId);
+            builder.HasMany(e => e.Products).WithOne(e => e.CreatorUser).HasForeignKey(e => e.CreatorUserId);
+            builder.HasMany(e => e.ShoppingCart).WithOne(e => e.User).HasForeignKey(e => e.UserId);
+            builder.HasMany(e => e.Rates).WithOne(e => e.User).HasForeignKey(e => e.UserId);
+            builder.HasMany(e => e.Comments).WithOne(e => e.User).HasForeignKey(e => e.UserId);
+            builder.HasMany(e => e.Purchases).WithOne(e => e.User).HasForeignKey(e => e.UserId);
         }
     }
 }

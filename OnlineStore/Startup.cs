@@ -30,6 +30,7 @@ namespace OnlineStore
             services.AddDbContext<OnlineStoreDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("MSSqlServer"));
             });
+            Debug.WriteLine("-----------------------All work properly good-------------------");
 
         }
 

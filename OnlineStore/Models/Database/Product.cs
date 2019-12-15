@@ -14,6 +14,9 @@ namespace OnlineStore.Models.Database
         public DateTime CreationTime { get; set; }
         public bool CommentsEnabled { get; set; }
 
+        public int CategoryId { get; set; }
+        public int CreatorUserId { get; set; }
+
         public Category Category { get; set; }
         public User CreatorUser { get; set; }
 

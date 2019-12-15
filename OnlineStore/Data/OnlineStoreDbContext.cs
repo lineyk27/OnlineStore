@@ -35,6 +35,10 @@ namespace OnlineStore.Data
             builder.ApplyConfiguration(new UserRoleConfiguration());
             builder.ApplyConfiguration(new PurchaseConfiguration());
             builder.ApplyConfiguration(new CommentConfiguration());
+            builder.ApplyConfiguration(new PurchaseProductConfiguration());
+            builder.ApplyConfiguration(new RateConfiguration());
+            builder.ApplyConfiguration(new ShoppingCartConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
         }
     }
 }

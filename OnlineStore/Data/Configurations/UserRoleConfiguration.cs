@@ -16,6 +16,8 @@ namespace OnlineStore.Data.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Name).HasMaxLength(32);
+
+            builder.HasMany(e => e.Users).WithOne(e => e.Role).HasForeignKey(e => e.RoleId);
         }
     }
 }

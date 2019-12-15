@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,6 +15,9 @@ namespace OnlineStore.Data.Configurations
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Adress).HasMaxLength(128);
             builder.Property(e => e.FullPrice).HasColumnType("decimal(5, 2)");
+
+            builder.HasMany(e => e.PurchaseProducts).WithOne(e => e.Purchase).HasForeignKey(e => e.PurchaseId);
+            builder.HasOne(e => e.User).WithMany(e => e.Purchases).HasForeignKey(e => e.UserId);
         
         }
     }

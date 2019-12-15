@@ -13,7 +13,10 @@ namespace OnlineStore.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
+            builder.HasKey(e => new {e.ProductId, e.UserId});
             builder.Property(e => e.Text).HasColumnType("ntext");
+            builder.HasOne(e => e.User).WithMany(e => e.Comments).HasForeignKey(e => e.UserId);
+            builder.HasOne(e => e.Product).WithMany(e => e.Comments).HasForeignKey(e => e.ProductId);
         }
     }
 }

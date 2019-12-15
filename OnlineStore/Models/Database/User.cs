@@ -13,6 +13,7 @@ namespace OnlineStore.Models.Database
         public DateTime CreationTime { get; set; }
         public DateTime LastLogin { get; set; }
 
+        public int RoleId { get; set; }
         public UserRole Role { get; set; }
         
         public ICollection<Product> Products { get; set; }
