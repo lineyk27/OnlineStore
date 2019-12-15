@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using OnlineStore.Data.Configurations;
 using OnlineStore.Models.Database;
+using System.Diagnostics;
 
 
 namespace OnlineStore.Data
@@ -39,8 +40,6 @@ namespace OnlineStore.Data
             builder.ApplyConfiguration(new RateConfiguration());
             builder.ApplyConfiguration(new ShoppingCartConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
-
-            builder.Seed();
         }
     }
 }

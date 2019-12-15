@@ -7,7 +7,7 @@ namespace OnlineStore.Data
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private OnlineStoreDbContext context = new OnlineStoreDbContext();
+        private OnlineStoreDbContext context = OnlineStoreDbContextFactory.Create();
         private bool disposed = false;
         public Repository<Category> CategoryRepository
         {
