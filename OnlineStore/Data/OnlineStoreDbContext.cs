@@ -14,6 +14,16 @@ namespace OnlineStore.Data
                     : base(options)
         {
         }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments{ get; set; }
+        public DbSet<Purchase> Purchases{ get; set; }
+        public DbSet<PurchaseProduct> PurchaseProducts{ get; set; }
+        public DbSet<Rate> Rates{ get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts{ get; set; }
+        public DbSet<UserRole> UserRoles{ get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserConfiguration());
