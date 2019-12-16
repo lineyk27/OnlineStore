@@ -69,7 +69,7 @@ namespace OnlineStore.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("CommentsEnabled")
+                    b.Property<bool?>("CommentsEnabled")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -262,7 +262,7 @@ namespace OnlineStore.Migrations
                     b.HasOne("OnlineStore.Models.Database.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -301,7 +301,7 @@ namespace OnlineStore.Migrations
                     b.HasOne("OnlineStore.Models.Database.Purchase", "Purchase")
                         .WithMany("PurchaseProducts")
                         .HasForeignKey("PurchaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -316,7 +316,7 @@ namespace OnlineStore.Migrations
                     b.HasOne("OnlineStore.Models.Database.User", "User")
                         .WithMany("Rates")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -331,7 +331,7 @@ namespace OnlineStore.Migrations
                     b.HasOne("OnlineStore.Models.Database.User", "User")
                         .WithMany("ShoppingCart")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

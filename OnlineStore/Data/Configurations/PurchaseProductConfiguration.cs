@@ -17,7 +17,7 @@ namespace OnlineStore.Data.Configurations
             builder.HasKey(e => new { e.PurchaseId, e.ProductId});
 
             builder.HasOne(e => e.Product).WithMany(e => e.PurchaseProducts).HasForeignKey(e => e.ProductId);
-            builder.HasOne(e => e.Purchase).WithMany(e => e.PurchaseProducts).HasForeignKey(e => e.PurchaseId);
+            builder.HasOne(e => e.Purchase).WithMany(e => e.PurchaseProducts).HasForeignKey(e => e.PurchaseId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
