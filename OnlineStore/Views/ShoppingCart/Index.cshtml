@@ -1,0 +1,46 @@
+﻿@model OnlineStore.Models.ViewModel.ShoppingCartModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Here are all your products</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.ShoppingCarts.Count() != 0)
+            {
+                @foreach (var i in Model.ShoppingCarts)
+                {
+        <div class="card">
+            <div class="">
+
+            </div>
+            <div class="card-header">
+                <a>@i.Product.Producer @i.Product.Model</a>
+            </div>
+            <div class="card-body">
+                Count: <input type="number" name="quantity" value="@i.Count" min="0" max="999">
+                <br />
+                Price: <span bg-color="red">@(i.Count * i.Product.Price)</span>
+            </div>
+            <a class="btn btn-dark" href="/api/cart/remove/@i.ProductId?redirect=@Context.Request.Path">Remove</a>
+        </div>
+                }
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            }
+            else
+            {
+                <div class="text-center">
+                    Your shopping cart is empty!
+                </div>
+            }
+        </form>
+    </div>
+</div>
+

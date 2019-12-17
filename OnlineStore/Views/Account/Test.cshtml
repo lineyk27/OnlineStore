@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Test</h1>
+<p>
+    @if (User != null)
+    {
+    <p>@User.Identity.Name;</p>
+}
+else
+{
+    <p>User is not authorized</p>
+}
+</p>

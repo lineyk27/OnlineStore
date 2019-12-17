@@ -59,6 +59,21 @@ namespace OnlineStore.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("OnlineStore.Models.Database.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("OnlineStore.Models.Database.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -84,9 +99,8 @@ namespace OnlineStore.Migrations
                         .HasColumnType("ntext")
                         .IsUnicode(true);
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(64)")
@@ -104,6 +118,9 @@ namespace OnlineStore.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatorUserId");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -277,6 +294,12 @@ namespace OnlineStore.Migrations
                     b.HasOne("OnlineStore.Models.Database.User", "CreatorUser")
                         .WithMany("Products")
                         .HasForeignKey("CreatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineStore.Models.Database.Image", "Image")
+                        .WithOne("Product")
+                        .HasForeignKey("OnlineStore.Models.Database.Product", "ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

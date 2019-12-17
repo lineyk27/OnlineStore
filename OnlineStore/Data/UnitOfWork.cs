@@ -24,6 +24,7 @@ namespace OnlineStore.Data
         private Repository<PurchaseProduct> purchaseProductRepository;
         private Repository<ShoppingCart> shoppingCartRepository;
         private Repository<UserRole> userRoleRepository;
+        private Repository<Image> imageRepository;
         public Repository<User> UserRepository
         {
             get
@@ -121,6 +122,17 @@ namespace OnlineStore.Data
                     userRoleRepository = new Repository<UserRole>(context);
                 }
                 return userRoleRepository;
+            }
+        }
+        public Repository<Image> ImageRepository
+        {
+            get
+            {
+                if (imageRepository == null)
+                {
+                    imageRepository = new Repository<Image>(context);
+                }
+                return imageRepository;
             }
         }
         public void Save()

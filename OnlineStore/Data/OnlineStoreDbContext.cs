@@ -28,6 +28,7 @@ namespace OnlineStore.Data
         public DbSet<Rate> Rates{ get; set; }
         public DbSet<ShoppingCart> ShoppingCarts{ get; set; }
         public DbSet<UserRole> UserRoles{ get; set; }
+        public DbSet<Image> Images{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,6 +43,7 @@ namespace OnlineStore.Data
             builder.ApplyConfiguration(new RateConfiguration());
             builder.ApplyConfiguration(new ShoppingCartConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new ImageConfiguration());
         }
     }
 }

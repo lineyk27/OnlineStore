@@ -1,0 +1,10 @@
+﻿@model OnlineStore.Models.ViewModel.ProductModel
+
+<div class="card" style="width: 18rem;">
+    <img src="/image/@Html.DisplayFor(model => model.ImageName)" class="card-img-top" alt="Model picture"/>
+    <div class="card-body">
+        <h5 class="card-title card-link"><a href="/product/@Html.DisplayFor(model => model.Id)">@Html.DisplayFor(model => model.Producer) @Html.DisplayFor(model => model.Model)</a></h5>
+        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+        <p class="card-text text-info">Price: @Html.DisplayFor(model => model.Price)</p>
+    </div>
+</div>

@@ -1,13 +1,9 @@
-﻿@{
+﻿@model IEnumerable<OnlineStore.Models.ViewModel.ProductModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>
-        @ViewBag.a.Name
-        @ViewBag.a.Description
-        @ViewBag.a.Id
-    </p>
-</div>
+@foreach (var i in Model)
+{
+    @await Html.PartialAsync("_CardProduct", i);
+}

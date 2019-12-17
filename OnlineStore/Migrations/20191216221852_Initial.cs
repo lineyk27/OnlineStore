@@ -22,6 +22,19 @@ namespace OnlineStore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Path = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
@@ -71,11 +84,11 @@ namespace OnlineStore.Migrations
                     Model = table.Column<string>(maxLength: 64, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     Description = table.Column<string>(type: "ntext", nullable: true),
-                    ImageUrl = table.Column<string>(maxLength: 256, nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CommentsEnabled = table.Column<bool>(nullable: true, defaultValue: true),
                     CategoryId = table.Column<int>(nullable: false),
-                    CreatorUserId = table.Column<int>(nullable: false)
+                    CreatorUserId = table.Column<int>(nullable: false),
+                    ImageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,6 +103,12 @@ namespace OnlineStore.Migrations
                         name: "FK_Products_Users_CreatorUserId",
                         column: x => x.CreatorUserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -227,6 +246,12 @@ namespace OnlineStore.Migrations
                 column: "CreatorUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_ImageId",
+                table: "Products",
+                column: "ImageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PurchaseProducts_ProductId",
                 table: "PurchaseProducts",
                 column: "ProductId");
@@ -277,6 +302,9 @@ namespace OnlineStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");

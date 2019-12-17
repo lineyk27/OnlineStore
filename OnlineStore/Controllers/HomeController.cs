@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using OnlineStore.Models.Database;
 using OnlineStore.Models;
 using OnlineStore.Data;
+using OnlineStore.Models.ViewModel;
 
 namespace OnlineStore.Controllers
 {
@@ -20,21 +21,27 @@ namespace OnlineStore.Controllers
         {
             _logger = logger;
         }
-
+        /*
         public IActionResult Index()
         {
-            var a = new Category() { Name = "NEw category", Description = "Description" };
-            unit.CategoryRepository.Insert(a);
-            unit.Save();
-            var b = unit.CategoryRepository.Get().First(e => e.Name != null);
-            ViewBag.a = b;
             return View();
         }
-
+        */
         public IActionResult Privacy()
         {
             return View();
         }
+        public IActionResult Index([FromQuery(Name="page")]int page,
+                                    [FromQuery(Name = "sort")]string sort,
+                                    [FromQuery(Name = "filter")]string filter)
+        {
+            IEnumerable<ProductModel> products;
+            var temp = unit.ProductRepository.Get(includeProperties: "Image,Comments,Rates,Category");
+            products = temp.Select(x => new ProductModel(x, 0));
+            ViewData["prod"] = products;
+            return View(products);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

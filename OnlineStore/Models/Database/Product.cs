@@ -10,13 +10,14 @@ namespace OnlineStore.Models.Database
         public string Model { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-        public string ImageUrl { get; set; }
         public DateTime CreationTime { get; set; }
         public bool? CommentsEnabled { get; set; }
 
         public int CategoryId { get; set; }
         public int CreatorUserId { get; set; }
+        public int ImageId { get; set; }
 
+        public Image Image { get; set; }
         public Category Category { get; set; }
         public User CreatorUser { get; set; }
 

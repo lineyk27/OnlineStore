@@ -24,8 +24,6 @@ namespace OnlineStore.Data.Configurations
             builder.Property(e => e.Description).IsUnicode(true);
             builder.Property(e => e.Description).HasColumnType("ntext");
 
-            builder.Property(e => e.ImageUrl).HasMaxLength(256);
-
             builder.Property(e => e.CommentsEnabled).HasDefaultValue(true);
 
             builder.HasMany(e => e.Comments).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
@@ -33,6 +31,7 @@ namespace OnlineStore.Data.Configurations
             builder.HasMany(e => e.Rates).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
             builder.HasMany(e => e.PurchaseProducts).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
             builder.HasMany(e => e.ShoppingCarts).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
+            builder.HasOne(e => e.Image).WithOne(e => e.Product).HasForeignKey<Product>(e => e.ImageId);
 
         }
 
