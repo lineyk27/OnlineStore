@@ -1,0 +1,97 @@
+﻿@model OnlineStore.Models.ViewModel.PurchaseViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using OnlineStore.Controllers;
+<h1>Purchase</h1>
+<div class="row">
+    <div class="col-sm-4">
+        <form asp-action="Make">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label">Surname: </label>
+                <input asp-for="Surname" value="@Model.Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Name: </label>
+                <input asp-for="Name" value="@Model.Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label">City: </label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Street" class="control-label">Street: </label>
+                <input asp-for="Street" class="form-control" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="House" class="control-label">House: </label>
+                <input asp-for="House" class="form-control" />
+                <span asp-validation-for="House" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apartment" class="control-label">Apartment: </label>
+                <input asp-for="Apartment" class="form-control" />
+                <span asp-validation-for="Apartment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Post office: </label>
+                <select id="post" name="category" asp-items="@Model.Offices" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label>Delivery option: </label>
+                <select id="delivery" name="category" asp-items="@Model.Options" class="form-control"></select>
+            </div>
+            <div class="text-body col-sm-6">
+                <p>
+                    Post ofice:<br />
+                    New post: 35$<br />
+                    Meest: 20$<br />
+                    UkrPost: 15$<br />
+                    <br />
+                    Delivery options:<br />
+                    On home: +10$<br />
+                    In post office: +0$<br />
+                </p>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="d-inline">
+                            <h3>Total price:</h3>
+                            <span>@Model.TotalCost + </span><span id="delcost"></span><span> = </span><span id="total"></span><span>$</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Make" class="btn btn-succes" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<hr/>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        var totalcost = @Model.TotalCost;
+        var officecost = { "New Post": "35", "Meest": "20", "UkrPost": "15" };
+        var deliverycost = { "On home": "35", "In post office": "0"};
+
+        $("#post, #delivery").change(function () {
+            console.log("in change");
+            let del = $("#delivery").val();
+            let post = $("#post").val();
+            let fc = parseInt(officecost[post]);
+            let dc = parseInt(deliverycost[del]);
+            let total = totalcost + fc + dc;
+            $("#delcost").html((fc + dc).toString());
+            $("#total").html(total.toString());
+        });
+    </script>

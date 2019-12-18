@@ -83,7 +83,7 @@ namespace OnlineStore.Controllers
                 User user = unit.UserRepository.Get(x => x.Email == model.Email).FirstOrDefault();
                 if (user == null)
                 {
-                    user = new User { Email = model.Email, PasswordHash = PasswordConverter.Hash(model.Password) };
+                    user = new User {Name=model.Name, Surname=model.Surname, Email = model.Email, PasswordHash = PasswordConverter.Hash(model.Password) };
                     UserRole userRole = unit.UserRoleRepository.Get(x => x.Name == "SimpleUser").FirstOrDefault();
                     if (userRole != null)
                         user.Role = userRole;

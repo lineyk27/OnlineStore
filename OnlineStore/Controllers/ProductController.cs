@@ -7,6 +7,7 @@ using System.Diagnostics;
 using OnlineStore.Data;
 using OnlineStore.Models;
 using OnlineStore.Models.ViewModel;
+using OnlineStore.Models.Database;
 
 namespace OnlineStore.Controllers
 {
@@ -14,43 +15,43 @@ namespace OnlineStore.Controllers
     {
         UnitOfWork unit = new UnitOfWork();
         [Route("Product/{id}")]
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id, string Comment)
         {
             if(id != null)
             {
-                var product = unit.ProductRepository.Get(x => x.Id == id, includeProperties: "Image,Comments,Rates,Category").FirstOrDefault();
-                if(product != null)
-                {
-                    double score = 0;
-                    if(product.Rates.Count != 0)
-                        score = product.Rates.Sum(x => x.Score)/ product.Rates.Count;
-                    ProductModel model = new ProductModel()
-                    {
-                        Id=product.Id,
-                        Producer=product.Producer,
-                        Model=product.Model,
-                        Description=product.Description,
-                        Category=product.Category.Name,
-                        Price=product.Price,
-                        Score=score,
-                        Comments=product.Comments,
-                        ImageName=product.Image.Path
-                    };
+                var product = unit.ProductRepository.Get(x => x.Id == id, includeProperties: "Image,Rates,Category").FirstOrDefault();
+                if (product == null)
+                    return RedirectToAction("Index", "Home");
 
-                    var cart = unit.ShoppingCartRepository.Get(x => x.User.Email == User.Identity.Name && x.Product.Id == product.Id, includeProperties: "Product,User").FirstOrDefault();
-                    bool isInCart = false;
-                    if (cart != null)
+                List<Comment> comments = unit.CommentRepository.Get(x => x.ProductId == product.Id, includeProperties:"User,Product").ToList();
+                bool inpurchase = false;
+                bool incart = false;
+                if (User.Identity.IsAuthenticated)
+                {
+                    var purchases = unit.PurchaseProductRepository.Get(x => x.ProductId == product.Id, includeProperties: "Purchase,Product");
+                    var user = unit.UserRepository.Get(x => x.Email == User.Identity.Name).FirstOrDefault();
+                    inpurchase = purchases.Where(x => x.Purchase.UserId == user.Id).Count() != 0;
+                    incart = unit.ShoppingCartRepository.Get(x => x.ProductId == product.Id && x.UserId == user.Id && x.Count != 0).Count() != 0;
+
+                    if (Comment != null && inpurchase == true)
                     {
-                        isInCart = true;
+                        unit.CommentRepository.Insert(new Comment()
+                        {
+                            Text = Comment,
+                            UserId = user.Id,
+                            ProductId=product.Id
+                        });
                     }
-
-                    ViewData["InCart"] = isInCart;
-                    return View(model);
                 }
-                else
+                ProductViewModel model = new ProductViewModel()
                 {
-                    return StatusCode(404);
-                }
+                    Product = product,
+                    InPurchase = inpurchase,
+                    InShopingCart = incart,
+                    Comments = comments
+                };
+
+                return View(model);
             }
             return RedirectToAction("Index", "Home");
         }

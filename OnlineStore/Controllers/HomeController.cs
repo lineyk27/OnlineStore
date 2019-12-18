@@ -21,12 +21,6 @@ namespace OnlineStore.Controllers
         {
             _logger = logger;
         }
-        /*
-        public IActionResult Index()
-        {
-            return View();
-        }
-        */
         public IActionResult Privacy()
         {
             return View();
@@ -35,9 +29,8 @@ namespace OnlineStore.Controllers
                                     [FromQuery(Name = "sort")]string sort,
                                     [FromQuery(Name = "filter")]string filter)
         {
-            IEnumerable<ProductModel> products;
-            var temp = unit.ProductRepository.Get(includeProperties: "Image,Comments,Rates,Category");
-            products = temp.Select(x => new ProductModel(x, 0));
+            ViewData["Categories"] = unit.CategoryRepository.Get();
+            var products =  unit.ProductRepository.Get(includeProperties: "Image,Comments,Rates,Category");
             ViewData["prod"] = products;
             return View(products);
         }

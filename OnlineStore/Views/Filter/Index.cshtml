@@ -1,0 +1,76 @@
+﻿@model OnlineStore.Models.ViewModel.IndexViewModel
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Search by filters and sorting by anuthing</h1>
+<form method="get">
+    <div class="form-inline">
+        <label>Search: </label>
+        <input name="name" value="@Model.FilterViewModel.SelectedName" />
+
+        <label>Category: </label>
+        <select name="category" asp-items="@Model.FilterViewModel.Categories" class="form-control"></select>
+
+        <input type="submit" value="Filter" class="btn btn-outline-info" />
+    </div>
+</form>
+<table class="table">
+    <tr>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@Model.SortViewModel.NameSort"
+               asp-route-name="@Model.FilterViewModel.SelectedName"
+               asp-route-category="@Model.FilterViewModel.SelectedCategory">
+                Name
+            </a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@Model.SortViewModel.CategorySort"
+               asp-route-name="@Model.FilterViewModel.SelectedName"
+               asp-route-category="@Model.FilterViewModel.SelectedCategory">Category</a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@Model.SortViewModel.RateSort"
+               asp-route-name="@Model.FilterViewModel.SelectedName"
+               asp-route-category="@Model.FilterViewModel.SelectedCategory">Rate</a>
+        </th>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@Model.SortViewModel.PriceSort"
+               asp-route-name="@Model.FilterViewModel.SelectedName"
+               asp-route-category="@Model.FilterViewModel.SelectedCategory">Price</a>
+        </th>
+    </tr>
+    @foreach (var i in Model.Products)
+    {
+        <tr><td><a href="/product/@i.Id" >@i.Name</a></td><td>@i.Category.Name</td><td>@i.AverageRate</td><td>@i.Price</td></tr>
+    }
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.SelectedCategory)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn  btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Prev
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.SelectedCategory)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+       class="btn btn-outline-dark">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

@@ -19,7 +19,16 @@ namespace OnlineStore.Controllers
             if(image != null)
             {
                 var fullpath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", image.Path);
-                var img = System.IO.File.OpenRead(fullpath);
+                FileStream img;
+                try
+                {
+                    img = System.IO.File.OpenRead(fullpath);
+                }
+                catch (Exception e)
+                {
+                    fullpath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", "empty.jpg");
+                    img = System.IO.File.OpenRead(fullpath);
+                }
                 return File(img, "image/jpeg");
             }
             return View();

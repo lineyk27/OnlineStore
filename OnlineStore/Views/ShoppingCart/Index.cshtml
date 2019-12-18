@@ -7,40 +7,65 @@
 
 <h1>Here are all your products</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if (Model.ShoppingCarts.Count() != 0)
+<style>
+    .count-form{
+        margin: 4px;
+    }
+</style>
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Count</td>
+                <td>Price</td>
+                <td>Delete</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.ShoppingCarts)
             {
-                @foreach (var i in Model.ShoppingCarts)
-                {
-        <div class="card">
-            <div class="">
-
-            </div>
-            <div class="card-header">
-                <a>@i.Product.Producer @i.Product.Model</a>
-            </div>
-            <div class="card-body">
-                Count: <input type="number" name="quantity" value="@i.Count" min="0" max="999">
-                <br />
-                Price: <span bg-color="red">@(i.Count * i.Product.Price)</span>
-            </div>
-            <a class="btn btn-dark" href="/api/cart/remove/@i.ProductId?redirect=@Context.Request.Path">Remove</a>
-        </div>
-                }
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
+                <tr>
+                    <td><a href="/product/@i.ProductId">@i.Product.Name</a></td>
+                    <td>
+                        <input class="count-form" max="999" min="1" type="number" data-id="@i.ProductId" value="@i.Count" />
+                        <a class="btn btn-outline-dark count" href="/api/cart/add/@i.ProductId?count=#&redirect=@Context.Request.Path">Save</a>
+                    </td>
+                    <td>
+                        @(i.Product.Price * i.Count) $
+                    </td>
+                    <td>
+                        <a href="/api/cart/remove/@i.ProductId?&redirect=@Context.Request.Path">Remove</a>
+                    </td>
+                </tr>
             }
-            else
-            {
-                <div class="text-center">
-                    Your shopping cart is empty!
-                </div>
-            }
-        </form>
+        </tbody>
+    </table>
+    @if (Model.TotalPrice != 0.0M)
+    {
+    <hr/>
+    <div class="container" >
+        <h3 class="align-content-lg-end" >
+            Price: @Model.TotalPrice $
+        </h3>
     </div>
+    <div class="container" >
+        <a class="btn btn-lg btn-success" href="/purchase">Make purchase</a>
+    </div>
+    }
 </div>
 
+<script src="~/lib/jquery/dist/jquery.js" ></script>
+<script>
+    $(".count").click(function () {
+        let input = this.previousElementSibling;
+        let count = input.value;
+        if (Math.sign(count) === 1) {
+            this.href = this.href.replace("#", count);
+        }
+        else {
+            this.stopPropagation();
+        }
+    });
+
+</script>

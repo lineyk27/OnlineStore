@@ -1,0 +1,38 @@
+﻿@model OnlineStore.Models.ViewModel.FilterModel
+
+<div class="container">
+    <div class="containter">
+        <button type="button" class="btn btn-light filter-open">Filter</button>
+    </div>
+    <div class="containter filters">
+        <form>
+            <div class="form-row">
+                <label for="inputAddress">Search: </label>
+                <input type="search" class="form-control" asp-for="Search" id="inputSearch" placeholder="Search by name and model">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <div class="dropdown category-choose">
+                        <select id="inputState" asp-for="Category" class="form-control">
+                            <option selected>Choose category</option>
+                            @foreach (var i in (IEnumerable<OnlineStore.Models.Database.Category>)ViewData["Categories"])
+                            {
+                                <option>@i.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <span>Floor price: </span>
+                    <input type="number" asp-for="LowPrice" class="form-control form-inline" max="99999" min="100" step="1" value="500" onchange="changeLowPrice(this)" id="lowPrice" placeholder="Low">
+                    <span>Ceil price: </span>
+                    <input type="number" asp-for="UpPrice" class="form-control form-inline" max="99999" min="100" step="1" value="1000" onchange="changeUpPrice(this)" id="lowPrice" placeholder="Low">
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="inputAddress">Minimum rating: </label>
+                <input type="number" asp-for="LowScore" class="form-control-range" max="5" min="1" value="3" id="inputRating">
+            </div>
+        </form>
+    </div>
+</div>

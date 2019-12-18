@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineStore.Models.Database
 {
@@ -25,5 +26,21 @@ namespace OnlineStore.Models.Database
         public ICollection<Rate> Rates { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<PurchaseProduct> PurchaseProducts { get; set; }
+
+        //Legacy code, dont touch this
+        public string Name
+        {
+            get
+            {
+                return Producer + " " + Model;
+            }
+        }
+        public float AverageRate
+        {
+            get
+            {
+                return Rates.Sum(x => x.Score) / (Rates.Count() + 0.000001f);
+            }
+        }
     }
 }

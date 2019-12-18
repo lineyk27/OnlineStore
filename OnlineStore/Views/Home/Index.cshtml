@@ -1,8 +1,7 @@
-﻿@model IEnumerable<OnlineStore.Models.ViewModel.ProductModel>
+﻿@model IEnumerable<OnlineStore.Models.Database.Product>
 @{
     ViewData["Title"] = "Home Page";
 }
-
 @foreach (var i in Model)
 {
     @await Html.PartialAsync("_CardProduct", i);

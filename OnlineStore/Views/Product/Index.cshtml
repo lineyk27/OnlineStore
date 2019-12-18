@@ -1,66 +1,98 @@
-﻿@model OnlineStore.Models.ViewModel.ProductModel
-
-@{
+﻿@{
     ViewData["Title"] = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Product</h1>
-
+<h1>@Model.Product.Name</h1>
+<hr />
 <div>
-    <h4>ProductModel</h4>
-    <hr />
+    <img src="/image/@Model.Product.Image.Path" />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Producer)
+            Brand
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Producer)
+            @Model.Product.Producer
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
+            Model
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Model)
+            @Model.Product.Model
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            Description
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Model.Product.Description
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
+            Category
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Category)
+            @Model.Product.Category.Name
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+            Rate
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+            @Model.Product.AverageRate
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Score)
+            Price
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Score)
+            @Model.Product.Price
         </dd>
     </dl>
     <div class="form-group">
-        @if (ViewData["InCart"] != null && (bool)ViewData["InCart"] == true)
+        @if (Model.InShopingCart)
         {
             <p>Is already in shopping cart</p>
-            <a class="btn btn-dark" href="/api/cart/remove/@Html.DisplayFor(model => model.Id)?redirect=@Context.Request.Path">Remove from shopping cart</a>
+            <a class="btn btn-dark" href="/api/cart/remove/@Model.Product.Id?redirect=@Context.Request.Path">Remove from shopping cart</a>
         }
         else
         {
-            <a class="btn btn-success" href="/api/cart/add/@Html.DisplayFor(model => model.Id)?redirect=@Context.Request.Path">Add to shopping cart</a>
+            <a class="btn btn-success" href="/api/cart/add/@Model.Product.Id?redirect=@Context.Request.Path">Add to shopping cart</a>
         }
     </div>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <h1>Comments</h1>
+    <form>
+        @if (Model.InPurchase)
+        {
+            <fieldset>
+                <div class="form-group">
+                    <label for="disabledTextInput">Comment</label>
+                    <input type="text" id="disabledTextInput" class="form-control text-lg-left" placeholder="Comment">
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </fieldset>
+        }
+        else
+        {
+            <fieldset disabled>
+                <div class="form-group">
+                    <label for="disabledTextInput">Comment</label>
+                    <input type="text" id="disabledTextInput" class="form-control" asp-route-Comment="@Model.Comment"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </fieldset>
+        }
+    </form>
+    <div class="container">
+        @if (Model.Comments.Count != 0)
+        {
+            <hr />
+            @foreach (var i in Model.Comments)
+            {
+
+                <div class="comment">
+                    <p>@i.User.Name @i.User.Surname</p>
+                    
+                    <p>@i.Text</p>
+                </div>
+            }
+        }
+    </div>
+
 </div>

@@ -1,0 +1,12 @@
+﻿@model OnlineStore.Models.ViewModel.SuccesViewModel
+@{
+    ViewData["Title"] = "Purchase made";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="text-center">
+        <h1>Congratulations</h1>
+        <h4>You have made purchase on @Model.TotalPrice$</h4>
+        <a asp-controller="Home" asp-action="Index">Go Home</a>
+    </div>
+
