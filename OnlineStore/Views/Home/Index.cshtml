@@ -2,7 +2,10 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@foreach (var i in Model)
-{
-    @await Html.PartialAsync("_CardProduct", i);
-}
+    <div class="card-group">
+        @foreach (var i in Model)
+        {
+            @await Html.PartialAsync("_CardProduct", i);
+        }
+    </div>
+

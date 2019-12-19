@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Data;
 using OnlineStore.Models.Database;
 using OnlineStore.Models.ViewModel;
-using System.Diagnostics;
 
 namespace OnlineStore.Controllers
 {
@@ -42,7 +41,6 @@ namespace OnlineStore.Controllers
                 .ToList();
             
             decimal total = carts.Sum(x => x.Product.Price * x.Count);
-
             PurchaseViewModel model = new PurchaseViewModel()
             {
                 Cart = carts,
@@ -50,8 +48,6 @@ namespace OnlineStore.Controllers
                 Name = user.Name,
                 Surname = user.Surname
             };
-            Debug.WriteLine(user.Name);
-            Debug.WriteLine(user.Surname);
 
             return View(model);
         }
@@ -86,8 +82,9 @@ namespace OnlineStore.Controllers
             unit.PurchaseRepository.Insert(np);
             unit.Save();
             np = unit.PurchaseRepository.Get(x => x.CreationTime == time).FirstOrDefault();
-            var carts = unit.ShoppingCartRepository.Get(x => x.UserId == user.Id);
-            foreach(var i in carts)
+            var carts = unit.ShoppingCartRepository.Get(x => x.UserId == user.Id, includeProperties:"Product");
+            decimal total = carts.Sum(x => x.Product.Price * x.Count);
+            foreach (var i in carts)
             {
                 var npr = new PurchaseProduct() 
                 { 
@@ -102,7 +99,7 @@ namespace OnlineStore.Controllers
                 unit.Save();
             }
 
-            var succes = new SuccesViewModel() { TotalPrice = purchase.TotalCost };
+            var succes = new SuccesViewModel() { TotalPrice = total };
             return View("Success", succes);
         }
     }

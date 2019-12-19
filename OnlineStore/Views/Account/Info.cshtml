@@ -1,0 +1,53 @@
+﻿@model OnlineStore.Models.ViewModel.AccountInfoViewModel
+@{
+    ViewData["Title"] = "Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>User information</h1>
+<div class="row" >
+    <dl class="row">
+        <dt class="col-sm-4">
+            Surname
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Surname
+        </dd>
+        <dt class="col-sm-4">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Name
+        </dd>
+        <dt class="col-sm-4">
+            Account creation time
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreationTime
+        </dd>
+        <dt class="col-sm-4">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Email
+        </dd>
+        @if (Model.IsModerator == true)
+        {
+            <dt class="col-sm-4">
+                Moderator page
+            </dt>
+            <dd class="col-sm-10">
+                <a class="btn btn-info">Link to moderation </a>
+            </dd>
+        }
+        else if (Model.IsAdmin == true)
+        {
+            <dt class="col-sm-4">
+                Admin page
+            </dt>
+            <dd class="col-sm-10">
+                <a href="/admin/products" class="btn btn-primary">Admin page</a>
+            </dd>
+        }
+    </dl>
+</div>

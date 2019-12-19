@@ -9,7 +9,8 @@ namespace OnlineStore.Models.ViewModel
         public Product Product{get;set;}
         public bool InShopingCart { get; set; }
         public bool InPurchase { get; set; }
+        public bool Commented { get; set; }
+        public bool Rated{ get; set; }
         public List<Comment> Comments { get; set; }
-        public string Comment { get; set; }
     }
 }

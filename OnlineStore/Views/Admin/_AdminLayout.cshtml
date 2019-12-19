@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Admin page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-2">
+        <a href="/admin/products" class="btn btn-info">Products</a>
+    </div>
+    <div class="col-sm-2">
+        <a href="/admin/users" class="btn btn-info">All users</a>
+    </div>
+</div>
+<div class="container">
+    @RenderBody()
+</div>

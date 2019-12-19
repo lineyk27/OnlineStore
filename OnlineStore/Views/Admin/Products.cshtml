@@ -1,0 +1,43 @@
+﻿@model OnlineStore.Models.ViewModel.AdminProducts
+@{
+    ViewData["Title"] = "Products";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<h1>Products</h1>
+<style>
+    .btn a {
+        margin-left: 3px;
+    }
+</style>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Owner</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.Products)
+        {
+            <tr>
+                <td>
+                    <a href="/product/@i.Id">@i.Name</a>
+                </td>
+                <td>
+                    @i.CreatorUser.Surname @i.CreatorUser.Name
+                </td>
+                <td>
+                    <a class="btn btn-dark" href="/api/product/remove/@i.Id?redirect=@Context.Request.Path">Remove</a>
+                    <a class="btn btn-info" href="/product/edit/@i.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="container">
+    <a class="btn btn-outline-success" href="/product/edit/-10">
+        New
+    </a>
+</div>

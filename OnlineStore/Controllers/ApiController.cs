@@ -79,8 +79,111 @@ namespace OnlineStore.Controllers
             else
                 return RedirectToAction("Index", "Home");
         }
-        public IActionResult AddComment(string user, [FromQuery(Name = "redirect")]string redirect)
+        [Route("api/product/remove/{id}")]
+        public IActionResult RemoveProduct(int? id, [FromQuery(Name="redirect")] string redirect)
         {
+            var user = unit
+                .UserRepository.Get(x => x.Email == User.Identity.Name, includeProperties:"Role")
+                .FirstOrDefault();
+            if(id != null && User.Identity.IsAuthenticated && user.Role.Name == "Administrator")
+            {
+                unit.ProductRepository.Delete((int)id);
+                unit.Save();
+            }
+            return Redirect(redirect);
+        }
+        [Route("api/rate/{id}")]
+        public IActionResult AddRate(int? id,[FromQuery(Name="rate")] int? rate, [FromQuery(Name="redirect")] string redirect)
+        {
+            if(id != null && rate != null)
+            {
+                var user = unit.UserRepository.Get(x => x.Email == User.Identity.Name).FirstOrDefault();
+                var r = unit.RateRepository.Get(x => x.UserId == user.Id && x.ProductId == (int)id).FirstOrDefault();
+
+                if(r != null)
+                {
+                    r.Score = (int)rate;
+                    unit.RateRepository.Update(r);
+                    unit.Save();
+                }
+                else
+                {
+                    r = new Rate() { UserId = user.Id, ProductId = (int)id, Score = (int)rate };
+                    unit.RateRepository.Insert(r);
+                    unit.Save();
+                }
+            }
+            return Redirect(redirect);
+        }
+        [Route("api/rate/remove/{id}")]
+        public IActionResult RemoveRate(int? id, [FromQuery(Name="redirect")] string redirect)
+        {
+            var user = unit.UserRepository.Get(x => x.Email == User.Identity.Name).FirstOrDefault();
+            if(user != null && id != null)
+            {
+                var rate = unit.RateRepository.Get(x => x.UserId == user.Id && x.ProductId == (int)id).FirstOrDefault();
+                unit.RateRepository.Delete(rate);
+                unit.Save();
+            }
+            return Redirect(redirect);
+        }
+        [Route("api/comment/{id}")]
+        public IActionResult AddComment(int? id,[FromQuery(Name="comment")]string comment, [FromQuery(Name = "redirect")] string redirect)
+        {
+            var user = unit.UserRepository.Get(x => x.Email == User.Identity.Name).FirstOrDefault();
+
+            var comm = unit
+                .CommentRepository
+                .Get(x => x.UserId == user.Id && x.ProductId == (int)id)
+                .FirstOrDefault();
+
+            if(comm == null)
+            {
+                comm = new Comment()
+                {
+                    UserId = user.Id,
+                    ProductId = (int)id,
+                    Text = comment
+                };
+                unit.CommentRepository.Insert(comm);
+            }
+            else
+            {
+                comm.Text = comment;
+                unit.CommentRepository.Update(comm);
+            }
+            unit.Save();
+            return Redirect(redirect);
+        }
+        [Route("api/admin/user/{id}")]
+        public IActionResult ChangeRole(int? id,[FromQuery(Name="role")] string role, [FromQuery(Name="redirect")] string redirect)
+        {
+            var user = unit
+                .UserRepository
+                .Get(x => x.Id == id)
+                .FirstOrDefault();
+
+            var admin = unit.UserRoleRepository.Get(x => x.Name == "Administrator").FirstOrDefault().Id;
+            var moder = unit.UserRoleRepository.Get(x => x.Name == "Moderator").FirstOrDefault().Id;
+            var simple = unit.UserRoleRepository.Get(x => x.Name == "SimpleUser").FirstOrDefault().Id;
+
+            if(user != null)
+            {
+                if(role == "moderator")
+                {
+                    user.RoleId = moder;
+                }
+                else if(role == "admin")
+                {
+                    user.RoleId = admin;
+                }
+                else if(role == "simpleuser")
+                {
+                    user.RoleId = simple;
+                }
+                unit.UserRepository.Update(user);
+                unit.Save();
+            }
 
             return Redirect(redirect);
         }

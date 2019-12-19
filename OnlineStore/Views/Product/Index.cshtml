@@ -6,7 +6,9 @@
 <h1>@Model.Product.Name</h1>
 <hr />
 <div>
-    <img src="/image/@Model.Product.Image.Path" />
+    <div class="container" style="height: 300px">
+        <img class="h-100" src="/image/@Model.Product.Image.Path" />
+    </div>
     <dl class="row">
         <dt class="col-sm-2">
             Brand
@@ -33,18 +35,43 @@
             @Model.Product.Category.Name
         </dd>
         <dt class="col-sm-2">
+            Price
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Product.Price
+        </dd>
+        <dt class="col-sm-2">
             Rate
         </dt>
         <dd class="col-sm-10">
             @Model.Product.AverageRate
         </dd>
         <dt class="col-sm-2">
-            Price
+            Make rate
         </dt>
         <dd class="col-sm-10">
-            @Model.Product.Price
+            @if (!Model.Rated && Model.InPurchase)
+            {
+                <input id="rate" type="number" max="5" min="1" value="0" />
+                <a id="arate" class="btn btn-outline-info" href="/api/rate/@Model.Product.Id?rate=#&redirect=@Context.Request.Path">Rate</a>
+            }
+            else
+            {
+                <input id="rate" type="number" max="0" min="5" value="0" disabled />
+                @if (User.Identity.IsAuthenticated && Model.Rated)
+                {
+                    <a id="delrate" class="btn btn-outline-danger" href="/api/rate/remove/@Model.Product.Id?redirect=@Context.Request.Path">delete rate</a>
+                }
+            }
         </dd>
     </dl>
+    <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script>
+        $("#arate").click(function () {
+            let rate = $("#rate").val();
+            this.href = this.href.replace("#", rate);
+        });
+    </script>
     <div class="form-group">
         @if (Model.InShopingCart)
         {
@@ -56,16 +83,16 @@
             <a class="btn btn-success" href="/api/cart/add/@Model.Product.Id?redirect=@Context.Request.Path">Add to shopping cart</a>
         }
     </div>
-    <h1>Comments</h1>
+    <h1>Comments @Model.Comments.Count</h1>
     <form>
         @if (Model.InPurchase)
         {
             <fieldset>
                 <div class="form-group">
                     <label for="disabledTextInput">Comment</label>
-                    <input type="text" id="disabledTextInput" class="form-control text-lg-left" placeholder="Comment">
+                    <input type="text" id="commenttext" class="form-control text-lg-left" placeholder="Comment">
+                    <a id="makecomment" href="/api/comment/@Model.Product.Id?comment=#&redirect=@Context.Request.Path">Send</a>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
             </fieldset>
         }
         else
@@ -73,11 +100,20 @@
             <fieldset disabled>
                 <div class="form-group">
                     <label for="disabledTextInput">Comment</label>
-                    <input type="text" id="disabledTextInput" class="form-control" asp-route-Comment="@Model.Comment"/>
+                    <input rows="4" type="text" class="form-control" />
+                    <button type="submit" class="btn btn-primary">Send</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
             </fieldset>
         }
+        <script>
+            $("#makecomment").click(function () {
+                let text = $("#commenttext").val();
+                if (!text) { return false; }
+                console.log(text);
+                this.href = this.href.replace("#", text);
+                console.log(this.href);
+            });
+        </script>
     </form>
     <div class="container">
         @if (Model.Comments.Count != 0)
@@ -85,12 +121,12 @@
             <hr />
             @foreach (var i in Model.Comments)
             {
-
                 <div class="comment">
                     <p>@i.User.Name @i.User.Surname</p>
                     
                     <p>@i.Text</p>
                 </div>
+                <hr />
             }
         }
     </div>

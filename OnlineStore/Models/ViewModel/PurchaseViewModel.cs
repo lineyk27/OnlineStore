@@ -42,7 +42,6 @@ namespace OnlineStore.Models.ViewModel
 
             Offices = new SelectList(PostOffices.Keys.ToList());
             Options = new SelectList(DeliveryOptions.Keys.ToList());
-
         }
     }
 }

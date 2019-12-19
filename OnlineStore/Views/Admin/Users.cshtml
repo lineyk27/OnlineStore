@@ -1,0 +1,81 @@
+﻿@model  OnlineStore.Models.ViewModel.AdminUsers
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<h1>Users</h1>
+
+<div class="container">
+    <style>
+        a{
+            margin-left: 3px;
+        }
+    </style>
+    <h3>Administrators</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.Admins)
+            {
+                <tr>
+                    <td>@i.Surname  @i.Name</td>
+                    <td>
+                        <a class="btn btn-info" href="/api/admin/user/@i.Id?role=simpleuser&redirect=@Context.Request.Path">Simple user</a>
+                        <a class="btn btn-dark" href="/api/admin/user/@i.Id?role=moderator&redirect=@Context.Request.Path">Moderator</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <h3>Moderators</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.Moderators)
+            {
+                <tr>
+                    <td>@i.Surname  @i.Name</td>
+                    <td>
+                        <a class="btn btn-info" href="/api/admin/user/@i.Id?role=simpleuser&redirect=@Context.Request.Path">Simple user</a>
+                        <a class="btn btn-dark" href="/api/admin/user/@i.Id?role=admin&redirect=@Context.Request.Path">Administrator</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <h3>Simple users</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.Users)
+            {
+                <tr>
+                    <td>@i.Surname  @i.Name</td>
+                    <td>
+                        <a class="btn btn-info" href="/api/admin/user/@i.Id?role=moderator&redirect=@Context.Request.Path">Moderator</a>
+                        <a class="btn btn-dark" href="/api/admin/user/@i.Id?role=admin&redirect=@Context.Request.Path">Administrator</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -7,6 +7,7 @@ using OnlineStore.Models.Database;
 using OnlineStore.Services;
 using OnlineStore.Data;
 using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 
@@ -41,11 +42,6 @@ namespace OnlineStore.Controllers
         {
             return View();
         }
-        public IActionResult Test()
-        {
-            return View();
-        }
-        
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
@@ -98,5 +94,49 @@ namespace OnlineStore.Controllers
             }
             return View(model);
         }
+        public IActionResult Purchases()
+        {
+
+            return View();
+        
+        }
+        [Route("account/info")]
+        public IActionResult Info()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = unit
+                    .UserRepository
+                    .Get(x => x.Email == User.Identity.Name,includeProperties:"Role")
+                    .FirstOrDefault();
+                bool isModer = false;
+                bool isAdmin= false;
+                if(user.Role.Name == "Administrator")
+                {
+                    isAdmin = true;
+                }
+                if(user.Role.Name == "Moderator")
+                {
+                    isModer = true;
+                }
+
+                AccountInfoViewModel model = new AccountInfoViewModel()
+                {
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Email = user.Email,
+                    CreationTime = user.CreationTime,
+                    IsModerator = isModer,
+                    IsAdmin=isAdmin
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
     }
 }

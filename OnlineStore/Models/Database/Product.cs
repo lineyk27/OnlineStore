@@ -39,7 +39,14 @@ namespace OnlineStore.Models.Database
         {
             get
             {
-                return Rates.Sum(x => x.Score) / (Rates.Count() + 0.000001f);
+                if (Rates.Count != 0) 
+                {
+                    return Rates.Sum(x => x.Score) / Rates.Count();
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
     }

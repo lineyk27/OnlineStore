@@ -1,0 +1,49 @@
+﻿@model OnlineStore.Models.ViewModel.ProductEditModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<div class="row">
+    <form asp-action="Save">
+        <div class="form-group" >
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Producer" class="control-label">Brand</label>
+            <input asp-for="Producer" class="form-control" />
+            <span asp-validation-for="Producer" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Model" class="control-label"></label>
+            <input asp-for="Model" class="form-control" />
+            <span asp-validation-for="Model" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Categories" class="control-label">Category</label>
+            <select name="Categories" asp-items="@Model.Categories" class="form-control"></select>
+            <span asp-validation-for="Categories" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CommentsEnabled" class="control-label"> Is comments enabled</label>
+            <select name="CommentsEnabled" asp-items="@Model.CommentsEnabled" class="form-control"></select>
+            <span asp-validation-for="CommentsEnabled" class="text-danger"></span>
+        </div>
+        <br />
+        <input type="submit" class="btn btn-outline-success" value="Save" />
+    </form>
+</div>
