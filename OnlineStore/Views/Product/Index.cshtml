@@ -1,4 +1,5 @@
-﻿@{
+﻿@model OnlineStore.Models.ViewModel.ProductViewModel
+@{
     ViewData["Title"] = "Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -58,8 +59,11 @@
                 }
                 else
                 {
-                    <input id="rate" type="number" max="0" min="5" value="0" disabled />
-                    <a id="delrate" class="btn btn-outline-danger" href="/api/rate/remove/@Model.Product.Id?redirect=@Context.Request.Path">delete rate</a>
+                    <input id="rate" type="number" max="0" min="5" alt="You can not rate the product" value="0" disabled />
+                    if (Model.Rated)
+                    {
+                        <a id="delrate" class="btn btn-outline-danger" href="/api/rate/remove/@Model.Product.Id?redirect=@Context.Request.Path">delete rate</a>
+                        }
                     }
                 }
         </dd>
