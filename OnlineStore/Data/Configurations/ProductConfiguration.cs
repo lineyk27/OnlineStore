@@ -19,7 +19,7 @@ namespace OnlineStore.Data.Configurations
 
             builder.Property(e => e.Model).HasMaxLength(64);
 
-            builder.Property(e => e.Price).HasColumnType("decimal(5,2)");
+            builder.Property(e => e.Price).HasColumnType("decimal(7,2)");
 
             builder.Property(e => e.Description).IsUnicode(true);
             builder.Property(e => e.Description).HasColumnType("ntext");

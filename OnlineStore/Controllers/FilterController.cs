@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Models.ViewModel;
 using System.Diagnostics;
@@ -12,16 +11,35 @@ namespace OnlineStore.Controllers
     public class FilterController : Controller
     {
         UnitOfWork unit = new UnitOfWork();
-        //[Route("filter")]
-        public IActionResult Index(int? category, string name, int page = 1, SortState sortOrder= SortState.NameAsc)
+        public IActionResult Index(int? category, float? lowprice, float? upprice, float? lowrate, string name, int page = 1, SortState sortOrder= SortState.NameAsc)
         {
             int pageSize = 2;
             var products = unit.ProductRepository.Get(includeProperties: "Image,Rates,Category").AsQueryable();
-            if(category != null)
+
+            if(category != null && category != 0)
             {
                 products = products.Where(x => x.Category.Id == category);
             }
-            if(!String.IsNullOrEmpty(name))
+            Debug.WriteLine(products.Count());
+            if(lowprice != null)
+            {
+                products = products.Where(x => x.Price > (decimal)lowprice);
+            }
+            Debug.WriteLine(products.Count());
+
+            if (upprice != null)
+            {
+                products = products.Where(x => x.Price < (decimal)upprice);
+            }
+            Debug.WriteLine(products.Count());
+
+            if (lowrate!= null)
+            {
+                products = products.Where(x => x.AverageRate >= lowrate);
+            }
+            Debug.WriteLine(products.Count());
+
+            if (!String.IsNullOrEmpty(name))
             {
                 products = products.Where(x => (x.Producer + x.Model).Contains(name));
             }
@@ -60,7 +78,13 @@ namespace OnlineStore.Controllers
             {
                 PageViewModel = new PageViewModel(count, page, pageSize),
                 SortViewModel = new SortViewModel(sortOrder),
-                FilterViewModel = new FilterViewModel(unit.CategoryRepository.Get().ToList(), category, name),
+                FilterViewModel = new FilterViewModel(
+                    unit.CategoryRepository.Get().ToList(),
+                    category,
+                    name,
+                    lowprice,
+                    upprice,
+                    lowrate),
                 Products = items
             };
 

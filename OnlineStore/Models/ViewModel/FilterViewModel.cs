@@ -11,21 +11,24 @@ namespace OnlineStore.Models.ViewModel
         public FilterViewModel(List<Category> categories,
             int? category,
             string name,
-            decimal? lowprice,
-            decimal? upprice,
-            decimal? lowrate
+            float? lowprice,
+            float? upprice,
+            float? lowrate
             )
         {
             categories.Insert(0, new Category() { Name="All", Id=0});
             Categories = new SelectList(categories, "Id", "Name", category);
             SelectedCategory = category;
             SelectedName = name;
+            LowPrice = lowprice;
+            UpPrice = upprice;
+            LowRate = lowrate;
         }
         public SelectList Categories { get; private set; }
         public int? SelectedCategory { get; private set; }
         public string SelectedName { get; private set; }
-        public decimal? LowPrice { get; private set; }
-        public decimal? UpPrice { get; private set; }
-        public float LowRate { get; private set; }
+        public float? LowPrice { get; private set; }
+        public float? UpPrice { get; private set; }
+        public float? LowRate { get; private set; }
     }
 }

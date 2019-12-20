@@ -4,25 +4,49 @@
     ViewData["Title"] = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>Search by filters and sorting by anuthing</h1>
+<h1>Filtered search</h1>
+<style>
+    input {
+        margin-right: 5px;
+    }
+</style>
 <form method="get">
-    <div class="form-inline">
+    <br />
+    <div class="row">
         <label>Search: </label>
         <input name="name" value="@Model.FilterViewModel.SelectedName" />
-
+    </div>
+    <br />
+    <div class="row">
         <label>Category: </label>
         <select name="category" asp-items="@Model.FilterViewModel.Categories" class="form-control"></select>
-
-        <input type="submit" value="Filter" class="btn btn-outline-info" />
     </div>
+    <br />
+    <div class="row">
+        <label for="lowprice">Low bound price</label>
+        <input type="number" name="lowprice" value="@Model.FilterViewModel.LowPrice" />
+
+        <label for="upprice">Up bound price</label>
+        <input type="number" name="upprice" value="@Model.FilterViewModel.UpPrice" />
+
+        <label for="lowrate">Low bound rate</label>
+        <input type="number" min="0" max="5" name="lowrate" value="@Model.FilterViewModel.LowRate" />
+    </div>
+    <br />
+    <input type="submit" value="Filter" class="btn btn-outline-info" />
 </form>
+<br />
+<br />
 <table class="table">
     <tr>
         <th>
             <a asp-action="Index"
                asp-route-sortOrder="@Model.SortViewModel.NameSort"
                asp-route-name="@Model.FilterViewModel.SelectedName"
-               asp-route-category="@Model.FilterViewModel.SelectedCategory">
+               asp-route-category="@Model.FilterViewModel.SelectedCategory"
+               asp-route-lowprice="@Model.FilterViewModel.LowPrice"
+               asp-route-upprice="@Model.FilterViewModel.UpPrice"
+               asp-route-lowrate="@Model.FilterViewModel.LowRate">
                 Name
             </a>
         </th>
@@ -30,24 +54,33 @@
             <a asp-action="Index"
                asp-route-sortOrder="@Model.SortViewModel.CategorySort"
                asp-route-name="@Model.FilterViewModel.SelectedName"
-               asp-route-category="@Model.FilterViewModel.SelectedCategory">Category</a>
+               asp-route-category="@Model.FilterViewModel.SelectedCategory"
+               asp-route-lowprice="@Model.FilterViewModel.LowPrice"
+               asp-route-upprice="@Model.FilterViewModel.UpPrice"
+               asp-route-lowrate="@Model.FilterViewModel.LowRate">Category</a>
         </th>
         <th>
             <a asp-action="Index"
                asp-route-sortOrder="@Model.SortViewModel.RateSort"
                asp-route-name="@Model.FilterViewModel.SelectedName"
-               asp-route-category="@Model.FilterViewModel.SelectedCategory">Rate</a>
+               asp-route-category="@Model.FilterViewModel.SelectedCategory"
+               asp-route-lowprice="@Model.FilterViewModel.LowPrice"
+               asp-route-upprice="@Model.FilterViewModel.UpPrice"
+               asp-route-lowrate="@Model.FilterViewModel.LowRate">Rate</a>
         </th>
         <th>
             <a asp-action="Index"
                asp-route-sortOrder="@Model.SortViewModel.PriceSort"
                asp-route-name="@Model.FilterViewModel.SelectedName"
-               asp-route-category="@Model.FilterViewModel.SelectedCategory">Price</a>
+               asp-route-category="@Model.FilterViewModel.SelectedCategory"
+               asp-route-lowprice="@Model.FilterViewModel.LowPrice"
+               asp-route-upprice="@Model.FilterViewModel.UpPrice"
+               asp-route-lowrate="@Model.FilterViewModel.LowRate">Price</a>
         </th>
     </tr>
     @foreach (var i in Model.Products)
     {
-        <tr><td><a href="/product/@i.Id" >@i.Name</a></td><td>@i.Category.Name</td><td>@i.AverageRate</td><td>@i.Price</td></tr>
+        <tr><td><a href="/product/@i.Id">@i.Name</a></td><td>@i.Category.Name</td><td>@i.AverageRate</td><td>@i.Price</td></tr>
     }
 </table>
 @if (Model.PageViewModel.HasPreviousPage)
@@ -55,7 +88,7 @@
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
        asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-company="@(Model.FilterViewModel.SelectedCategory)"
+       asp-route-category="@(Model.FilterViewModel.SelectedCategory)"
        asp-route-sortorder="@(Model.SortViewModel.Current)"
        class="btn  btn-outline-dark">
         <i class="glyphicon glyphicon-chevron-left"></i>
@@ -67,7 +100,7 @@
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
        asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-company="@(Model.FilterViewModel.SelectedCategory)"
+       asp-route-category="@(Model.FilterViewModel.SelectedCategory)"
        asp-route-sortorder="@(Model.SortViewModel.Current)"
        class="btn btn-outline-dark">
         Next

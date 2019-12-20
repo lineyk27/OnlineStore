@@ -2,10 +2,15 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-    <div class="card-group">
-        @foreach (var i in Model)
-        {
-            @await Html.PartialAsync("_CardProduct", i);
-        }
-    </div>
+<br />
+<div class="container">
+    <a href="/filter">Filtered search</a>
+</div>
+<br />
+<div class="card-columns">
+    @foreach (var i in Model)
+    {
+        @await Html.PartialAsync("_CardProduct", i);
+    }
+</div>
 

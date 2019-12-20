@@ -8,52 +8,58 @@
 <div class="row">
     <div class="col-sm-4">
         <form asp-action="Make">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label">Surname: </label>
-                <input asp-for="Surname" value="@Model.Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Surname" class="control-label">Surname: </label>
+                    <input asp-for="Surname" value="@Model.Surname" class="form-control" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Name: </label>
+                    <input asp-for="Name" value="@Model.Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="control-label">City: </label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Street" class="control-label">Street: </label>
+                    <input asp-for="Street" class="form-control" />
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="House" class="control-label">House: </label>
+                    <input asp-for="House" class="form-control" />
+                    <span asp-validation-for="House" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Apartment" class="control-label">Apartment: </label>
+                    <input asp-for="Apartment" class="form-control" />
+                    <span asp-validation-for="Apartment" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label">Name: </label>
-                <input asp-for="Name" value="@Model.Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label">City: </label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Street" class="control-label">Street: </label>
-                <input asp-for="Street" class="form-control" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="House" class="control-label">House: </label>
-                <input asp-for="House" class="form-control" />
-                <span asp-validation-for="House" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Apartment" class="control-label">Apartment: </label>
-                <input asp-for="Apartment" class="form-control" />
-                <span asp-validation-for="Apartment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="row">
                 <label>Post office: </label>
                 <select id="post" name="category" asp-items="@Model.Offices" class="form-control"></select>
             </div>
-            <div class="form-group">
-                <label>Delivery option: </label>
-                <select id="delivery" name="category" asp-items="@Model.Options" class="form-control"></select>
-            </div>
-            <div class="text-body col-sm-6">
+            <div class="row">
                 <p>
                     Post ofice:<br />
                     New post: 35$<br />
                     Meest: 20$<br />
                     UkrPost: 15$<br />
                     <br />
+                </p>
+            </div>
+            <div class="row">
+                <label>Delivery option: </label>
+                <select id="delivery" name="category" asp-items="@Model.Options" class="form-control"></select>
+            </div>
+            <div class="row">
+                <p>
                     Delivery options:<br />
                     On home: +10$<br />
                     In post office: +0$<br />
@@ -70,14 +76,12 @@
                 </div>
             </div>
             <div class="row">
-                <input type="submit" value="Make" class="btn btn-succes" />
+                <input type="submit" value="Make" class="btn btn-outline-success" />
             </div>
         </form>
     </div>
 </div>
-
 <hr/>
-
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script>
         var totalcost = @Model.TotalCost;
@@ -93,5 +97,8 @@
             let total = totalcost + fc + dc;
             $("#delcost").html((fc + dc).toString());
             $("#total").html(total.toString());
+        });
+        $(document).load(function () {
+            $("#post").trigger("change");
         });
     </script>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using OnlineStore.Models.Database;
-using OnlineStore.Models.ViewModel;
 
 namespace OnlineStore.Models.ViewModel
 {
