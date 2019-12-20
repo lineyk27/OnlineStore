@@ -1,6 +1,6 @@
 # OnlineStore
 ## Description
-Online store is a ecommerce shop thet everybody can download and user.
+Online store is a ecommerce shop thet everybody can download and use.
 ## Installing and using
 All needed preinstalled software:
 * IIS Express
