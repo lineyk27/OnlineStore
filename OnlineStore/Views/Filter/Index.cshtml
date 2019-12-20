@@ -85,25 +85,25 @@
 </table>
 @if (Model.PageViewModel.HasPreviousPage)
 {
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-category="@(Model.FilterViewModel.SelectedCategory)"
-       asp-route-sortorder="@(Model.SortViewModel.Current)"
-       class="btn  btn-outline-dark">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Prev
-    </a>
+<a asp-action="Index"
+   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+   asp-route-category="@(Model.FilterViewModel.SelectedCategory)"
+   asp-route-sortorder="@(Model.SortViewModel.Current)"
+   class="btn  btn-outline-dark">
+    <i class="glyphicon glyphicon-chevron-left"></i>
+    &#60; Prev
+</a>
 }
 @if (Model.PageViewModel.HasNextPage)
 {
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-category="@(Model.FilterViewModel.SelectedCategory)"
-       asp-route-sortorder="@(Model.SortViewModel.Current)"
-       class="btn btn-outline-dark">
-        Next
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
+<a asp-action="Index"
+   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+   asp-route-name="@(Model.FilterViewModel.SelectedName)"
+   asp-route-category="@(Model.FilterViewModel.SelectedCategory)"
+   asp-route-sortorder="@(Model.SortViewModel.Current)"
+   class="btn btn-outline-dark">
+    Next &#62;
+    <i class="glyphicon glyphicon-chevron-right"></i>
+</a>
 }
