@@ -31,7 +31,7 @@ namespace OnlineStore.Data.Configurations
             builder.HasMany(e => e.Rates).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
             builder.HasMany(e => e.PurchaseProducts).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
             builder.HasMany(e => e.ShoppingCarts).WithOne(e => e.Product).HasForeignKey(e => e.ProductId);
-            builder.HasOne(e => e.Image).WithOne(e => e.Product).HasForeignKey<Product>(e => e.ImageId);
+            builder.HasOne(e => e.Image).WithMany(e => e.Products).HasForeignKey(x => x.ImageId);
 
         }
 

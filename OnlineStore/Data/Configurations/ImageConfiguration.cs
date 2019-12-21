@@ -15,7 +15,7 @@ namespace OnlineStore.Data.Configurations
         public void Configure(EntityTypeBuilder<Image> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.HasOne(e => e.Product).WithOne(e => e.Image).HasForeignKey<Product>(e => e.ImageId);
+            builder.HasMany(e => e.Products).WithOne(e => e.Image).HasForeignKey(x => x.ImageId);
         }
     }
 }

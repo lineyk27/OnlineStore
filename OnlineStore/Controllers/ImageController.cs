@@ -29,7 +29,7 @@ namespace OnlineStore.Controllers
                     fullpath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", "empty.jpg");
                     img = System.IO.File.OpenRead(fullpath);
                 }
-                return File(img, "image/jpeg");
+                return File(img, "image/*");
             }
             return View();
         }

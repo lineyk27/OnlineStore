@@ -9,12 +9,19 @@ using OnlineStore.Models;
 using OnlineStore.Models.ViewModel;
 using OnlineStore.Models.Database;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace OnlineStore.Controllers
 {
     public class ProductController : Controller
     {
         UnitOfWork unit = new UnitOfWork();
+        public async Task SaveImage(IFormFile file)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", file.FileName);
+            await file.CopyToAsync(new FileStream(path, FileMode.Create));
+        }
         [Route("Product/{id}")]
         public IActionResult Index(int? id)
         {
@@ -77,7 +84,7 @@ namespace OnlineStore.Controllers
             {
                 product = unit
                     .ProductRepository
-                    .Get(x => x.Id == id, includeProperties: "Category")
+                    .Get(x => x.Id == id, includeProperties: "Category,Image")
                     .FirstOrDefault();
             }
             ProductEditModel model = new ProductEditModel();
@@ -89,11 +96,13 @@ namespace OnlineStore.Controllers
                 model.Price = product.Price;
                 model.Id = product.Id;
                 model.Description = product.Description;
+                model.ImageName = product.Image?.Path;
+
                 var categories = unit.CategoryRepository.Get().ToList();
                 var sel = categories.Where(x => x.Id == product.CategoryId).FirstOrDefault();
                 var sellist = new SelectList(categories, "Id", "Name", sel);
 
-                var commenabled= (bool)product.CommentsEnabled == true ? "Yes" : "No";
+                var commenabled = product.CommentsEnabled == true ? "Yes" : "No";
 
                 model.CommentsEnabled = new SelectList(new List<string>() { "Yes", "No" }, commenabled);
                 model.Categories = sellist;
@@ -104,24 +113,23 @@ namespace OnlineStore.Controllers
                 model.CommentsEnabled = new SelectList(new List<string>() { "Yes", "No" }, "Yes");
             }
 
-            return View("Edit",model);
+            return View("Edit", model);
         }
 
-        public IActionResult Save(ProductEditModel pmodel)
+        public async Task<IActionResult> SaveAsync(ProductEditModel edit)
         {
-            Debug.WriteLine("in edit with model");
-            
+
             var user = unit
                 .UserRepository.Get(x => x.Email == User.Identity.Name)
                 .FirstOrDefault();
             if(user != null)
             {
                 Product product = null;
-                if (pmodel.Id != 0)
+                if (edit.Id != 0)
                 {
                     product = unit
                         .ProductRepository
-                        .Get(x => x.Id == pmodel.Id)
+                        .Get(x => x.Id == edit.Id)
                         .FirstOrDefault();
                 }
 
@@ -129,11 +137,17 @@ namespace OnlineStore.Controllers
                 var category = int.Parse(Request.Form["Categories"].ToString());
                 if (product != null)
                 {
-                    product.Model = pmodel.Model;
-                    product.Producer = pmodel.Producer;
-                    product.Price = pmodel.Price;
-                    product.Description = pmodel.Description;
-                    product.CommentsEnabled= commentsenabled == "Yes" ? true : false;
+                    if (edit.Image != null)
+                    {
+                        unit.ImageRepository.Insert(new Image() { Path = edit.Image.FileName });
+                        unit.Save();
+                        product.ImageId = unit.ImageRepository.Get(x => x.Path == edit.Image.FileName).FirstOrDefault().Id;
+                    }
+                    product.Model = edit.Model;
+                    product.Producer = edit.Producer;
+                    product.Price = edit.Price;
+                    product.Description = edit.Description;
+                    product.CommentsEnabled = commentsenabled == "Yes" ? true : false;
                     product.CategoryId = category;
 
                     unit
@@ -143,26 +157,36 @@ namespace OnlineStore.Controllers
                 }
                 else
                 {
+                    int id = 7;
+                    if (edit.Image != null)
+                    {
+                        //edit.Image = edit.Image;
 
+                        await SaveImage(edit.Image);
+                        unit.ImageRepository.Insert(new Image() { Path = edit.Image.FileName });
+                        unit.Save();
+                        id = unit.ImageRepository.Get(x => x.Path == edit.Image.FileName).FirstOrDefault().Id;
+                    }
                     product = new Product()
                     {
-                        Model = pmodel.Model,
-                        Producer = pmodel.Producer,
-                        Price = pmodel.Price,
-                        Description = pmodel.Description,
+                        Model = edit.Model,
+                        Producer = edit.Producer,
+                        Price = edit.Price,
+                        Description = edit.Description,
                         CommentsEnabled = commentsenabled == "Yes" ? true : false,
                         CategoryId = category,
                         CreatorUserId=user.Id,
                         CreationTime=DateTime.Now,
-                        ImageId=7
+                        ImageId= id
                     };
+
                     unit
                         .ProductRepository
                         .Insert(product);
                     unit.Save();
                 }
 
-                return View("Edit", pmodel);
+                return View("Edit", edit);
             }
             return RedirectToAction("Index", "Home");
         }
