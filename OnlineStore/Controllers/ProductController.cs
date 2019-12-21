@@ -186,7 +186,7 @@ namespace OnlineStore.Controllers
                     unit.Save();
                 }
 
-                return View("Edit", edit);
+                return Redirect("/admin/products");
             }
             return RedirectToAction("Index", "Home");
         }

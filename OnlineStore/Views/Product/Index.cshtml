@@ -89,52 +89,58 @@
             }
         }
     </div>
-    <h1>Comments @Model.Comments.Count</h1>
-    <form>
-        @if (Model.InPurchase)
-        {
-            <fieldset>
-                <div class="form-group">
-                    <label for="disabledTextInput">Comment</label>
-                    <input type="text" id="commenttext" class="form-control text-lg-left" placeholder="Comment">
-                    <a id="makecomment" href="/api/comment/@Model.Product.Id?comment=#&redirect=@Context.Request.Path">Send</a>
-                </div>
-            </fieldset>
-        }
-        else
-        {
-            <fieldset disabled>
-                <div class="form-group">
-                    <label for="disabledTextInput">Comment</label>
-                    <input rows="4" type="text" class="form-control" />
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </div>
-            </fieldset>
-        }
-        <script>
-            $("#makecomment").click(function () {
-                let text = $("#commenttext").val();
-                if (!text) { return false; }
-                console.log(text);
-                this.href = this.href.replace("#", text);
-                console.log(this.href);
-            });
-        </script>
-    </form>
-    <div class="container">
-        @if (Model.Comments.Count != 0)
-        {
-            <hr />
-            @foreach (var i in Model.Comments)
+    @if ((bool)Model.Product.CommentsEnabled)
+    {
+        <h1>Comments @Model.Comments.Count</h1>
+        <form>
+            @if (Model.InPurchase)
             {
-                <div class="comment">
-                    <p>@i.User.Name @i.User.Surname</p>
-                    
-                    <p>@i.Text</p>
-                </div>
-                <hr />
+                <fieldset>
+                    <div class="form-group">
+                        <label for="disabledTextInput">Comment</label>
+                        <input type="text" rows="4" id="commenttext" class="form-control" placeholder="Comment">
+                        <a id="makecomment" href="/api/comment/@Model.Product.Id?comment=#&redirect=@Context.Request.Path">Send</a>
+                    </div>
+                </fieldset>
             }
-        }
-    </div>
-
+            else
+            {
+                <fieldset disabled>
+                    <div class="form-group">
+                        <label for="disabledTextInput">Comment</label>
+                        <input type="text" class="form-control" />
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </fieldset>
+            }
+            <script>
+                $("#makecomment").click(function () {
+                    let text = $("#commenttext").val();
+                    if (!text) { return false; }
+                    console.log(text);
+                    this.href = this.href.replace("#", text);
+                    console.log(this.href);
+                });
+            </script>
+        </form>
+        <div class="container">
+            @if (Model.Comments.Count != 0)
+            {
+                <hr />
+                @foreach (var i in Model.Comments)
+                {
+                    <div class="comment">
+                        <p>@i.User.Name @i.User.Surname</p>
+                    
+                        <p>@i.Text</p>
+                    </div>
+                    <hr />
+                }
+            }
+        </div>
+    }
+    else
+    {
+        <h4>Comments was disabled for this product</h4>
+    }
 </div>
