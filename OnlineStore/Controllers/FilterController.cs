@@ -13,7 +13,7 @@ namespace OnlineStore.Controllers
         UnitOfWork unit = new UnitOfWork();
         public IActionResult Index(int? category, float? lowprice, float? upprice, float? lowrate, string name, int page = 1, SortState sortOrder= SortState.NameAsc)
         {
-            int pageSize = 2;
+            int pageSize = 4;
             var products = unit.ProductRepository.Get(includeProperties: "Image,Rates,Category").AsQueryable();
 
             if(category != null && category != 0)
