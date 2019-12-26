@@ -34,6 +34,9 @@ namespace OnlineStore.Data
         {
             base.OnModelCreating(builder);
 
+            Seed seed = new Seed();
+            seed.SeedData(builder);
+
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new UserRoleConfiguration());
