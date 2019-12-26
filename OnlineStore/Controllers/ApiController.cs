@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Data;
 using OnlineStore.Models.Database;
-using System.Diagnostics;
 
 namespace OnlineStore.Controllers
 {
@@ -34,7 +33,6 @@ namespace OnlineStore.Controllers
                             .ShoppingCartRepository
                             .Update(cart);
                         unit.Save();
-                        Debug.WriteLine(count);
                     }
                     else
                     {
@@ -67,7 +65,6 @@ namespace OnlineStore.Controllers
         [Route("api/cart/remove/{id}")]
         public IActionResult RemoveFromShop(int? id, [FromQuery(Name = "redirect")]string redirect)
         {
-            Debug.WriteLine("In api ermove");
             ShoppingCart cart = unit.ShoppingCartRepository.Get(x => x.User.Email == User.Identity.Name && x.ProductId == id, includeProperties: "User").FirstOrDefault();
             if(cart != null)
             {

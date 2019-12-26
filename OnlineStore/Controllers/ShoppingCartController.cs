@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Models.ViewModel;
 using OnlineStore.Data;
 using System.Linq;
-using System.Diagnostics;
 
 namespace OnlineStore.Controllers
 {
@@ -14,7 +13,6 @@ namespace OnlineStore.Controllers
         [Route("/cart")]
         public IActionResult Index(int? id, int? count, int? deleted)
         {
-            Debug.WriteLine($"{id} - {count} - {deleted}");
             if (User.Identity.IsAuthenticated)
             {
                 if (deleted != null && deleted != -1)

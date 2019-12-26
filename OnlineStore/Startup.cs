@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,9 +14,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using OnlineStore.Data;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-/*
-here are 3 roles: SimpleUser, Administrator, Moderator
-*/
+
 namespace OnlineStore
 {
     public class Startup

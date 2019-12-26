@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Models.ViewModel;
-using System.Diagnostics;
 using OnlineStore.Data;
 
 namespace OnlineStore.Controllers
@@ -20,24 +19,20 @@ namespace OnlineStore.Controllers
             {
                 products = products.Where(x => x.Category.Id == category);
             }
-            Debug.WriteLine(products.Count());
             if(lowprice != null)
             {
                 products = products.Where(x => x.Price > (decimal)lowprice);
             }
-            Debug.WriteLine(products.Count());
 
             if (upprice != null)
             {
                 products = products.Where(x => x.Price < (decimal)upprice);
             }
-            Debug.WriteLine(products.Count());
 
             if (lowrate!= null)
             {
                 products = products.Where(x => x.AverageRate >= lowrate);
             }
-            Debug.WriteLine(products.Count());
 
             if (!String.IsNullOrEmpty(name))
             {
