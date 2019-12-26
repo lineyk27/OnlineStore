@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineStore.Data;
 
 namespace OnlineStore.Migrations
 {
     [DbContext(typeof(OnlineStoreDbContext))]
-    partial class OnlineStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191226225454_Data-seeding")]
+    partial class Dataseeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,7 +175,7 @@ namespace OnlineStore.Migrations
                             Id = 1,
                             CategoryId = 1,
                             CommentsEnabled = true,
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 795, DateTimeKind.Local).AddTicks(6364),
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 775, DateTimeKind.Local).AddTicks(4384),
                             CreatorUserId = 3,
                             Description = "Example of description about a smartphone.",
                             ImageId = 1,
@@ -186,7 +188,7 @@ namespace OnlineStore.Migrations
                             Id = 2,
                             CategoryId = 1,
                             CommentsEnabled = true,
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 795, DateTimeKind.Local).AddTicks(8252),
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 775, DateTimeKind.Local).AddTicks(6097),
                             CreatorUserId = 3,
                             Description = "New smartphone Samsung S10e is already in sale.",
                             ImageId = 2,
@@ -199,7 +201,7 @@ namespace OnlineStore.Migrations
                             Id = 3,
                             CategoryId = 2,
                             CommentsEnabled = true,
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 795, DateTimeKind.Local).AddTicks(8284),
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 775, DateTimeKind.Local).AddTicks(6116),
                             CreatorUserId = 3,
                             Description = "New notebook from Apple is already in our store.",
                             ImageId = 3,
@@ -212,7 +214,7 @@ namespace OnlineStore.Migrations
                             Id = 4,
                             CategoryId = 2,
                             CommentsEnabled = true,
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 795, DateTimeKind.Local).AddTicks(8293),
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 775, DateTimeKind.Local).AddTicks(6121),
                             CreatorUserId = 3,
                             Description = "New notebook from Apple is already in our store.",
                             ImageId = 4,
@@ -225,7 +227,7 @@ namespace OnlineStore.Migrations
                             Id = 5,
                             CategoryId = 3,
                             CommentsEnabled = true,
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 795, DateTimeKind.Local).AddTicks(8303),
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 775, DateTimeKind.Local).AddTicks(6127),
                             CreatorUserId = 3,
                             Description = "New TV with high resolution screen.",
                             ImageId = 5,
@@ -369,8 +371,7 @@ namespace OnlineStore.Migrations
                         {
                             Id = 1,
                             Adress = "",
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 781, DateTimeKind.Local).AddTicks(3864),
-                            Email = "vasylvlasiuk@gmail.com",
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 740, DateTimeKind.Local).AddTicks(3212),
                             LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Vasyl",
                             PasswordHash = @"%�Z҃�@
@@ -382,8 +383,7 @@ namespace OnlineStore.Migrations
                         {
                             Id = 2,
                             Adress = "",
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 794, DateTimeKind.Local).AddTicks(7558),
-                            Email = "johndoe@gmail.com",
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 774, DateTimeKind.Local).AddTicks(6484),
                             LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "John",
                             PasswordHash = "1[��N�W��?�}",
@@ -394,8 +394,7 @@ namespace OnlineStore.Migrations
                         {
                             Id = 3,
                             Adress = "",
-                            CreationTime = new DateTime(2019, 12, 27, 0, 58, 6, 794, DateTimeKind.Local).AddTicks(8244),
-                            Email = "ostepbondar@gmail.com",
+                            CreationTime = new DateTime(2019, 12, 27, 0, 54, 53, 774, DateTimeKind.Local).AddTicks(7363),
                             LastLogin = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Ostap",
                             PasswordHash = "^�g�9ƏQE�/���\"	",

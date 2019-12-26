@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OnlineStore.Data;
 using OnlineStore.Models.Database;
 using OnlineStore.Services;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +34,7 @@ namespace OnlineStore.Data
                 CreationTime = DateTime.Now,
                 Name = "Vasyl",
                 Surname = "Vlasiuk",
+                Email="vasylvlasiuk@gmail.com",
                 PasswordHash = PasswordConverter.Hash("12345678"),
                 RoleId=1,
                 Adress=""                
@@ -50,6 +47,7 @@ namespace OnlineStore.Data
                 CreationTime = DateTime.Now,
                 Name = "John",
                 Surname = "Doe",
+                Email = "johndoe@gmail.com",
                 PasswordHash = PasswordConverter.Hash("qwerty12"),
                 RoleId = 2,
                 Adress = ""
@@ -62,6 +60,7 @@ namespace OnlineStore.Data
                 CreationTime = DateTime.Now,
                 Name = "Ostap",
                 Surname = "Bondar",
+                Email = "ostepbondar@gmail.com",
                 PasswordHash = PasswordConverter.Hash("87654321"),
                 RoleId = 3,
                 Adress = ""
