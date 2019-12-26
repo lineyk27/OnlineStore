@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 using OnlineStore.Data;
 using Microsoft.Extensions.FileProviders;
@@ -50,9 +45,16 @@ namespace OnlineStore
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles")),
+                FileProvider = new PhysicalFileProvider(folderPath),
                 RequestPath = "/StaticFiles"
             });
             app.UseAuthentication();
