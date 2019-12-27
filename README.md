@@ -4,7 +4,7 @@ Online store is a ecommerce shop thet everybody can download and use.
 ## Installing and using
 All needed preinstalled software:
 * IIS Express
-* Microsoft SQL Server(or anythong other, but config must be changed)
+* Microsoft SQL Server
 * Microsoft Visual Studio 2019
 
 Used frameworks and libraries:
