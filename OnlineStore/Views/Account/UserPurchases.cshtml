@@ -1,0 +1,57 @@
+﻿@model OnlineStore.Models.ViewModel.UserPurchasesViewModel
+
+@{
+    ViewData["Title"] = "UserPurchases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>UserPurchases</h1>
+
+<div>
+    <hr />
+    @foreach(var i in Model.Purchases)
+    {
+        <div class="row">
+            <h3>Purchase from @i.CreationTime date</h3>
+            <div class="row" style="margin-left: 5px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Product name</td>
+                            <td>Count</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var j in i.PurchaseProducts)
+                        {
+                        <tr>
+                            <td>
+                                <a asp-action="Index"
+                                   asp-controller="Product"
+                                   asp-route-id="@j.ProductId">@j.Product.Name</a>
+                            </td>
+                            <td>
+                                @j.Count
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <h4>
+                    Adress: @i.Adress
+                </h4>
+                <hr>
+                <br>
+                <h4>
+                    Total price: @i.FullPrice
+                </h4>
+            </div>
+        </div>
+        <br>
+        <hr>
+    }
+
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Home">Back to Main page</a>
+</div>

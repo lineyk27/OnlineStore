@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Data;
 using OnlineStore.Models.Database;
 using OnlineStore.Models.ViewModel;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace OnlineStore.Controllers
 {
@@ -60,30 +62,43 @@ namespace OnlineStore.Controllers
             purchase.House = purchase.House ?? " ";
             purchase.Apartment = purchase.Apartment ?? " ";
 
+            var office = Request.Form["offices"];
+            var delivery = Request.Form["options"];
+
             string adress = purchase.Surname +
                 " " + purchase.Name +
                 " " + purchase.City +
                 " " + purchase.Street +
                 " " + purchase.House +
                 " " + purchase.Apartment +
-                " " + purchase.Offices.SelectedValue +
-                " " + purchase.Options.SelectedValue;
+                " " + office +
+                " " + delivery;
 
+
+            var costOffice = 0;
+            if (office == "Meest")
+                costOffice = 20;
+            else if (office == "New Post")
+                costOffice = 35;
+            else
+                costOffice = 15;
+
+            var deliveryCost = delivery == "On home" ? 10 : 0;
             var user = unit.UserRepository.Get(x => x.Email == User.Identity.Name).FirstOrDefault();
 
+            var carts = unit.ShoppingCartRepository.Get(x => x.UserId == user.Id, includeProperties: "Product");
+            decimal total = carts.Sum(x => x.Product.Price * x.Count);
+            total += (costOffice + deliveryCost); 
             Purchase np = new Purchase()
             {
                 UserId=user.Id,
                 Adress=adress,
-                FullPrice=purchase.TotalCost,
+                FullPrice=total,
                 CreationTime=DateTime.Now
             };
             var time = np.CreationTime;
             unit.PurchaseRepository.Insert(np);
             unit.Save();
-            np = unit.PurchaseRepository.Get(x => x.CreationTime == time).FirstOrDefault();
-            var carts = unit.ShoppingCartRepository.Get(x => x.UserId == user.Id, includeProperties:"Product");
-            decimal total = carts.Sum(x => x.Product.Price * x.Count);
             foreach (var i in carts)
             {
                 var npr = new PurchaseProduct() 
@@ -98,7 +113,7 @@ namespace OnlineStore.Controllers
                     .Delete(i);
                 unit.Save();
             }
-
+            unit.Save();
             var succes = new SuccesViewModel() { TotalPrice = total };
             return View("Success", succes);
         }

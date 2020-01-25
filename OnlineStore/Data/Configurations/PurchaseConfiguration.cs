@@ -16,7 +16,7 @@ namespace OnlineStore.Data.Configurations
             builder.Property(e => e.Id).ValueGeneratedOnAdd();
 
             builder.Property(e => e.Adress).HasMaxLength(128);
-            builder.Property(e => e.FullPrice).HasColumnType("decimal(5, 2)");
+            builder.Property(e => e.FullPrice).HasColumnType("decimal(8, 2)");
 
             builder.HasMany(e => e.PurchaseProducts).WithOne(e => e.Purchase).HasForeignKey(e => e.PurchaseId);
             builder.HasOne(e => e.User).WithMany(e => e.Purchases).HasForeignKey(e => e.UserId);

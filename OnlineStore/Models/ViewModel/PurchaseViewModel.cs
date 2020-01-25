@@ -25,23 +25,17 @@ namespace OnlineStore.Models.ViewModel
         public string House { get; set; }
         [Required]
         public string Apartment { get; set; }
-        public Dictionary<string, int> PostOffices { get; set; }
-        public Dictionary<string, int> DeliveryOptions{ get; set; }
         public SelectList Offices { get; set; }
         public SelectList Options{ get; set; }
+        public string OptionName { get; set; }
+        public string OfficeName { get; set; }
         public PurchaseViewModel()
         {
-            PostOffices = new Dictionary<string, int>();
-            PostOffices["New Post"] = 35;
-            PostOffices["Meest"] = 20;
-            PostOffices["UkrPost"] = 15;
+            var postOffices = new List<string>() { "New Post", "Meest", "UkrPost" };
+            var deliveryOptions = new List<string>() { "On home", "In post office"};
 
-            DeliveryOptions = new Dictionary<string, int>();
-            DeliveryOptions["On home"] = 10;
-            DeliveryOptions["In post office"] = 0;
-
-            Offices = new SelectList(PostOffices.Keys.ToList());
-            Options = new SelectList(DeliveryOptions.Keys.ToList());
+            Offices = new SelectList(postOffices);
+            Options = new SelectList(deliveryOptions);
         }
     }
 }

@@ -43,7 +43,12 @@
             </div>
             <div class="row">
                 <label>Post office: </label>
-                <select id="post" name="category" asp-items="@Model.Offices" class="form-control"></select>
+                <select id="post" 
+                        name="offices" 
+                        asp-items="@Model.Offices" 
+                        asp-for="OfficeName" 
+                        class="form-control"
+                        ></select>
             </div>
             <div class="row">
                 <p>
@@ -56,7 +61,13 @@
             </div>
             <div class="row">
                 <label>Delivery option: </label>
-                <select id="delivery" name="category" asp-items="@Model.Options" class="form-control"></select>
+                <select 
+                        id="delivery" 
+                        name="options" 
+                        asp-items="@Model.Options" 
+                        asp-for="OptionName"
+                        class="form-control"
+                        ></select>
             </div>
             <div class="row">
                 <p>
@@ -86,7 +97,7 @@
     <script>
         var totalcost = @Model.TotalCost;
         var officecost = { "New Post": "35", "Meest": "20", "UkrPost": "15" };
-        var deliverycost = { "On home": "35", "In post office": "0"};
+        var deliverycost = { "On home": "10", "In post office": "0"};
 
         $("#post, #delivery").change(function () {
             console.log("in change");

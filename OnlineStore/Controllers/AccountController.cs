@@ -2,23 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Models.ViewModel;
 using OnlineStore.Models.Database;
 using OnlineStore.Services;
 using OnlineStore.Data;
 using System.Security.Claims;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
-enum UserClaim
-{
-    Name=0,
-    Surname=1,
-    Email=2,
-    Role=3
-}
 namespace OnlineStore.Controllers
 {
     public class AccountController : Controller
@@ -143,6 +137,24 @@ namespace OnlineStore.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+        [Authorize]
+        public IActionResult UserPurchases()
+        {
+            var email = User.Identity.Name;
+            var user = unit
+                .UserRepository
+                .Get(x => x.Email == email)
+                .FirstOrDefault();
+            var purchases = unit
+                .PurchaseRepository
+                .Get(x => x.UserId == user.Id, includeProperties: "PurchaseProducts.Product")
+                .OrderByDescending(x => x.CreationTime);
+            var model = new UserPurchasesViewModel()
+            {
+                Purchases = purchases
+            };
+            return View(model);
         }
 
     }
