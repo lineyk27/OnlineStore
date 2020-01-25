@@ -31,6 +31,11 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" asp-action="SaveComment" />
             </div>
+            <a 
+               class="btn btn-danger" 
+               asp-action="RemoveComment"
+               asp-route-productId="@Model.ProductId" 
+               asp-route-userId="@Model.UserId">Delete comment</a>
         </form>
     </div>
 </div>

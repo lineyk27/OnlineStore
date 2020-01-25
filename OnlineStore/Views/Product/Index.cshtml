@@ -104,7 +104,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="disabledTextInput">Comment</label>
-                        <input type="text" rows="4" id="commenttext" class="form-control" placeholder="Comment">
+                        <input type="text" style="height:50px;" rows="4" id="commenttext" class="form-control" placeholder="Comment">
                         <a id="makecomment" href="/api/comment/@Model.Product.Id?comment=#&redirect=@Context.Request.Path">Send</a>
                     </div>
                 </fieldset>
@@ -114,7 +114,7 @@
                 <fieldset disabled>
                     <div class="form-group">
                         <label for="disabledTextInput">Comment</label>
-                        <input type="text" class="form-control" />
+                        <input type="text" style="height:50px;" class="form-control" />
                         <button type="submit" class="btn btn-primary">Send</button>
                     </div>
                 </fieldset>
