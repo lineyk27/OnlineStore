@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Data;
 using OnlineStore.Models.ViewModel;
@@ -23,7 +24,7 @@ namespace OnlineStore.Controllers
         [Route("Product/{id}")]
         public IActionResult Index(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 var product = unit.ProductRepository.Get(x => x.Id == id, includeProperties: "Image,Rates,Category").FirstOrDefault();
                 if (product == null)
@@ -31,12 +32,14 @@ namespace OnlineStore.Controllers
 
                 List<Comment> comments = unit
                     .CommentRepository
-                    .Get(x => x.ProductId == product.Id, includeProperties:"User,Product")
+                    .Get(x => x.ProductId == product.Id, includeProperties: "User,Product")
                     .ToList();
                 bool inpurchase = false;
                 bool incart = false;
                 bool commented = false;
                 bool rated = false;
+                bool canEditComments = false;
+                bool canEditProduct = false;
                 if (User.Identity.IsAuthenticated)
                 {
                     var purchases = unit
@@ -44,7 +47,7 @@ namespace OnlineStore.Controllers
                         .Get(x => x.ProductId == product.Id, includeProperties: "Purchase,Product");
                     var user = unit
                         .UserRepository
-                        .Get(x => x.Email == User.Identity.Name)
+                        .Get(x => x.Email == User.Identity.Name, includeProperties: "Role")
                         .FirstOrDefault();
                     inpurchase = purchases
                         .Where(x => x.Purchase.UserId == user.Id)
@@ -57,7 +60,8 @@ namespace OnlineStore.Controllers
                         .RateRepository
                         .Get(x => x.UserId == user.Id && x.ProductId == product.Id)
                         .Count() != 0;
-
+                    canEditComments = user.Role.Name == "Administrator" || user.Role.Name == "Moderator";
+                    canEditProduct = user.Role.Name == "Administrator";
                     unit.Save();
                 }
                 ProductViewModel model = new ProductViewModel()
@@ -67,7 +71,9 @@ namespace OnlineStore.Controllers
                     InShopingCart = incart,
                     Comments = comments,
                     Commented = commented,
-                    Rated = rated
+                    Rated = rated,
+                    CanEditComments = canEditComments,
+                    CanEditProduct = canEditProduct
                 };
                 return View(model);
             }
@@ -120,7 +126,7 @@ namespace OnlineStore.Controllers
             var user = unit
                 .UserRepository.Get(x => x.Email == User.Identity.Name)
                 .FirstOrDefault();
-            if(user != null)
+            if (user != null)
             {
                 Product product = null;
                 if (edit.Id != 0)
@@ -173,9 +179,9 @@ namespace OnlineStore.Controllers
                         Description = edit.Description,
                         CommentsEnabled = commentsenabled == "Yes" ? true : false,
                         CategoryId = category,
-                        CreatorUserId=user.Id,
-                        CreationTime=DateTime.Now,
-                        ImageId= id
+                        CreatorUserId = user.Id,
+                        CreationTime = DateTime.Now,
+                        ImageId = id
                     };
 
                     unit
@@ -185,6 +191,61 @@ namespace OnlineStore.Controllers
                 }
 
                 return Redirect("/admin/products");
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        public IActionResult EditComment([FromQuery]int productId, [FromQuery]int userId)
+        {
+            var comment = unit
+                .CommentRepository
+                .Get(x => x.ProductId == productId && x.UserId == userId, includeProperties: "Product")
+                .FirstOrDefault();
+            if (comment == null)
+                return RedirectToAction("Index", "Home");
+            var model = new CommentModel()
+            {
+                UserId = comment.UserId,
+                Text = comment.Text,
+                ProductId = comment.ProductId
+            };
+
+            return View(model);
+        }
+        public IActionResult SaveComment([FromForm]CommentModel model)
+        {
+            Debug.WriteLine($"{model.UserId} {model.ProductId} ");
+            var comment = unit
+                .CommentRepository
+                .Get(x => x.ProductId == model.ProductId && x.UserId == model.UserId)
+                .FirstOrDefault();
+            if (comment == null)
+                return RedirectToAction("Index", "Home");
+
+            comment.Text = model.Text;
+            unit.CommentRepository.Update(comment);
+            unit.Save();
+            return Redirect($"/product/{comment.ProductId}");
+        }
+        public IActionResult RemoveComment(int productId, int userId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = unit
+                    .UserRepository
+                    .Get(x => x.Email == User.Identity.Name, includeProperties: "Role")
+                    .FirstOrDefault();
+                if (user.Role.Name == "Administrator" || user.Role.Name == "Moderator")
+                {
+                    var comment = unit
+                        .CommentRepository
+                        .Get(x => x.UserId == userId && x.ProductId == productId)
+                        .FirstOrDefault();
+
+                    var prodId = comment.ProductId;
+                    unit.CommentRepository.Delete(comment);
+                    unit.Save();
+                    return Redirect($"/product/{prodId}");
+                }
             }
             return RedirectToAction("Index", "Home");
         }

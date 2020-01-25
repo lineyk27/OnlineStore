@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -79,7 +80,14 @@ namespace OnlineStore.Controllers
                 User user = unit.UserRepository.Get(x => x.Email == model.Email).FirstOrDefault();
                 if (user == null)
                 {
-                    user = new User {Name=model.Name, Surname=model.Surname, Email = model.Email, PasswordHash = PasswordConverter.Hash(model.Password) };
+                    user = new User 
+                    {
+                        Name=model.Name, 
+                        Surname=model.Surname, 
+                        Email = model.Email, 
+                        PasswordHash = PasswordConverter.Hash(model.Password),
+                        CreationTime = DateTime.Now
+                    };
                     UserRole userRole = unit.UserRoleRepository.Get(x => x.Name == "SimpleUser").FirstOrDefault();
                     if (userRole != null)
                         user.Role = userRole;
@@ -96,7 +104,6 @@ namespace OnlineStore.Controllers
         }
         public IActionResult Purchases()
         {
-
             return View();
         
         }

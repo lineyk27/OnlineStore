@@ -7,6 +7,12 @@
 <h1>@Model.Product.Name</h1>
 <hr />
 <div>
+    @if (Model.CanEditProduct)
+    {
+    <div class="row">
+        <a class="btn btn-primary" asp-controller="Product" asp-action="Edit" asp-route-Id="@Model.Product.Id">Edit</a>
+    </div>
+    }
     <div class="container" style="height: 300px">
         <img class="h-100" src="/image/@Model.Product.Image.Path" />
     </div>
@@ -134,7 +140,15 @@
                     
                         <p>@i.Text</p>
                     </div>
-                    <hr />
+                    if (Model.CanEditComments)
+                    {
+                        <a class="btn btn-info"
+                           asp-controller="Product"
+                           asp-action="EditComment"
+                           asp-route-productId="@Model.Product.Id"
+                           asp-route-userId="@i.UserId">Edit Comment</a>
+                        <hr />
+                    }
                 }
             }
         </div>
