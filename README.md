@@ -15,6 +15,5 @@ Used frameworks and libraries:
 Installation instruction:
 * Clone this repository
 * Open the solution in Microsoft Visual Studio 
-* Make migrations with command `add-migration <migration-name>`
 * Update database with command `update-database`
 * Run the project
