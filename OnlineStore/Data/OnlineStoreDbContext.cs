@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OnlineStore.Data.Configurations;
 using OnlineStore.Models.Database;
-using System.Diagnostics;
-
 
 namespace OnlineStore.Data
 {

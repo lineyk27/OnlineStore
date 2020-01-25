@@ -36,7 +36,7 @@ namespace OnlineStore.Controllers
 
             if (!String.IsNullOrEmpty(name))
             {
-                products = products.Where(x => (x.Producer + x.Model).Contains(name));
+                products = products.Where(x => (x.Producer + x.Model + x.Description).ToLower().Contains(name.ToLower()));
             }
             switch (sortOrder)
             {
