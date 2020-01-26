@@ -31,16 +31,7 @@
         <dd class="col-sm-10">
             @Model.Email
         </dd>
-        @if (Model.IsModerator == true)
-        {
-            <dt class="col-sm-4">
-                Moderator page
-            </dt>
-            <dd class="col-sm-10">
-                <a class="btn btn-info">Link to moderation </a>
-            </dd>
-        }
-        else if (Model.IsAdmin == true)
+        @if (Model.IsAdmin == true)
         {
             <dt class="col-sm-4">
                 Admin page
@@ -50,6 +41,8 @@
             </dd>
         }
     </dl>
+    <br>
+    <hr>
     <div class="row">
         <a asp-action="UserPurchases" class="btn btn-link">Purchases </a>
     </div>
